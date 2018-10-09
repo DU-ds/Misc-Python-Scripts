@@ -154,15 +154,37 @@ for all x1, y1 in {obj1} x2, y2 in {obj2} such that f(x1,y1) = (x2,y2),
   (x1 >  y1) implies (x2 <  y2), 
   (x1 == y1) implies (x2 == y2), 
   (x1 <  y1) implies (x2 >  y2)
+  MUTATES obj!!!!
 """
 
+def reverseCoding2(obj):
+    temp = obj.copy() #more expensive because it copies obj
+    add = 1 + temp.max()
+    temp *= -1
+    temp += add
+    return temp
+""" reverseCoding2(obj)
+flips the ordering around then puts it back on the same scale
+f: obj1 --> obj2
+for all x1, y1 in {obj1} x2, y2 in {obj2} such that f(x1,y1) = (x2,y2), 
+  (x1 >  y1) implies (x2 <  y2), 
+  (x1 == y1) implies (x2 == y2), 
+  (x1 <  y1) implies (x2 >  y2)
+  Does not mutate obj passed as an arugment.
+"""
+"""
 reverseCoding(gssdf4.paytaxes)
+don't run this funtion multiple times
+"""
+gssdf4.paytaxes = reverseCoding2(gssdf4.paytaxes)
 
 
 
 
 
 """
+Now I need to merge the data sets and run the models. maybe run em in python? 
+Also, if I'm using wights, which weights, if any, correspond?
 https://pandas.pydata.org/pandas-docs/stable/merging.html
 """
 
