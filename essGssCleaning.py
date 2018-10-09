@@ -116,12 +116,47 @@ Income:  In which of these groups did your total family income, from all sources
 Rincome: Did you earn any income from (OCCUPATION DESCRIBED IN OCC-INDUSTRY) in [the previous year]?
 """
 
+gssdf4 = gssdf4.drop(["rincome"], axis = 1)
 
+"""
+http://nesstar.ess.nsd.uib.no/webview/index.jsp?v=2&submode=variable&study=http%3A%2F%2F129.177.90.83%3A-1%2Fobj%2FfStudy%2FESS2e03.5&gs=undefined&variable=http%3A%2F%2F129.177.90.83%3A80%2Fobj%2FfVariable%2FESS2e03.5_V213&mode=documentation&top=yes
+search term : essround
+ ESS1-2002, ed.6.5
+  ESS2-2004, ed.3.5
+  ESS3-2006, ed.3.6
+  ESS7-2014, ed.2.1
+  ESS6-2012, ed.2.3
+  ESS8-2016, ed.2.0
+  ESS4-2008, ed.4.4
+  ESS5-2010, ed.3.3
+"""
+essdf1[essdf1.essround == 2] = 2004
 
+""" GSS: Sex
+Male 1
+Female 2
+"""
+"""
+ESS : gndr
+1	Male	
+2	Female
+9  	No answer
+"""
+def reverseCoding(obj): 
+    add = 1 + obj.max() #+1 so obj > 0
+    obj *= -1
+    obj += add
+    return obj
+""" reverseCoding(obj)
+flips the ordering around then puts it back on the same scale
+f: obj1 --> obj2
+for all x1, y1 in {obj1} x2, y2 in {obj2} such that f(x1,y1) = (x2,y2), 
+  (x1 >  y1) implies (x2 <  y2), 
+  (x1 == y1) implies (x2 == y2), 
+  (x1 <  y1) implies (x2 >  y2)
+"""
 
-
-
-
+reverseCoding(gssdf4.paytaxes)
 
 
 
