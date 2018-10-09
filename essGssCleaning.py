@@ -56,10 +56,17 @@ gssdf3.gssOrEss.std() #0
 
 gssdf3.dtypes
 essdf1.dtypes
-essdf2 = essdf1.copy()
+#essdf2 = essdf1.copy()
+"""
+https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.rename.html
+"""
+essdf1.columns
+essdf1 = essdf1.rename(index = str, columns = {"gndr" : "sex", "hinctnt" : "income" } )
+
+"""
 essdf2["sex"]  =  essdf1.gndr.copy()
 essdf2["income"] = essdf1.hinctnt.copy()
-
+"""
 """
 In [79]: essdf1.columns.size
 Out[79]: 8
@@ -95,9 +102,27 @@ https://stackoverflow.com/questions/34682828/pandas-extracting-specific-selected
 
 gssdf4 = gssdf3.drop(["cohort"], axis = 1)
 gssdf4.columns #no more cohort column
-essdf2["gssOrEss"] = 2
-essdf2.columns
-essdf2 = essdf2.drop(['hinctnt','gndr'], axis = 1) #pobably should've renamed the columns instead
+essdf1["gssOrEss"] = 2
+essdf1.columns
+#essdf2 = essdf2.drop(['hinctnt','gndr'], axis = 1) #pobably should've renamed the columns instead
+"""
+BOTH : need to recode tax vars to a compatible coding scheme
+BOTH : need to make sure sex vars are both coded the same
+ESS  : need to recode essround to the corresponding year
+GSS  : need to figure out income vs rincome
+"""
+"""
+Income:  In which of these groups did your total family income, from all sources, fall last year before taxes, that is? Just tell me the letter
+Rincome: Did you earn any income from (OCCUPATION DESCRIBED IN OCC-INDUSTRY) in [the previous year]?
+"""
+
+
+
+
+
+
+
+
 
 
 
