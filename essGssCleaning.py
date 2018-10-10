@@ -44,9 +44,11 @@ gssdf2.ndim
 gssdf2.rincome.size
 gssdf2.rincome.size == gssdf2.size / gssdf2.columns.size
 gssdf2.dtypes
-gssdf2.to_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/ESSVariableSubset4.txt", sep = "|", index = False )
-
-gssdf3 = pd.read_table("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/ESSVariableSubset4.txt", sep = "|")
+"""#commented so I don't keep reruniing it
+#gssdf2.to_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/GSSVariableSubset4.txt", sep = "|", index = False )
+"""
+#oops, wrote to wrong file. Changed file name and code to coresspond ESS --> GSS
+gssdf3 = pd.read_table("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/GSSVariableSubset4.txt", sep = "|")
 gssdf3.head()
 gssdf3.dtypes
 gssdf3["gssOrEss"] = 1
@@ -62,7 +64,9 @@ https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.rename.h
 """
 essdf1.columns
 essdf1 = essdf1.rename(index = str, columns = {"gndr" : "sex", "hinctnt" : "income" } )
-
+"""
+essdf1.to_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/ESSVariableSubset4.txt", sep = "|", index = False )
+#commented so I don't keep reruniing it"""
 """
 essdf2["sex"]  =  essdf1.gndr.copy()
 essdf2["income"] = essdf1.hinctnt.copy()
@@ -177,9 +181,33 @@ reverseCoding(gssdf4.paytaxes)
 don't run this funtion multiple times
 """
 gssdf4.paytaxes = reverseCoding2(gssdf4.paytaxes)
+essdf1.rename({ "ctzchtx" : "paytaxes"} ,axis = "columns")
 
 
 
+"""
+essdf1.pweight.std()
+Out[39]: 9.332080311636187e-15
+
+essdf1.pweight.mean()
+Out[40]: 3.2484026000000097
+
+essdf1.pweight.min()
+Out[41]: 3.2484026000000004
+
+essdf1.pweight.max()
+Out[42]: 3.2484026000000004
+Consistent with my expectation from the documentation
+given it only contains data from Italy
+"""
+
+gssdf5 = gssdf4.drop( columns = ["wtssall", "wtss"]) 
+#I prefer this way of dropping, easier to understand without reading the documentation
+essdf2 = essdf1.drop(columns = ["pweight","dweight"] )
+gssdf5.to_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/GSSVariableSubset5.txt", sep = "|", index = False )
+essdf2.to_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/ESSVariableSubset5.txt", sep = "|", index = False )
+gssdf5 = pd.read_table("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/GSSVariableSubset5.txt", sep = "|")
+essdf2 = pd.read_table("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/ESSVariableSubset5.txt", sep = "|")
 
 
 """
