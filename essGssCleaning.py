@@ -222,5 +222,18 @@ Now I need to merge the data sets and run the models. maybe run em in python?
 https://pandas.pydata.org/pandas-docs/stable/merging.html
 """
 
+essgssdf1 = pd.concat([essdf2, gssdf5], keys = ["ess", "gss"])
+essgssdf1.year.size == (essdf2.year.size + gssdf5.year.size) # true, same sizes
+essgssdf1.columns == essdf2.columns #true
+essdf2.columns == gssdf5.columns    #true
+"""
+essgssdf1.to_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/ESSGSSCombinedDataset1.txt", sep = "|", index = False)
+#commenting so it doesn't keep running
+"""
+df1 = pd.read_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/ESSGSSCombinedDataset1.txt", sep = "|")
+"""
+looks like python only has one implementation for ordered logit
+the statsmodels hasn't implemented it, but it has most of the other GLM models I'm used to
+"""
 
 
