@@ -45,7 +45,7 @@ gssdf2.rincome.size
 gssdf2.rincome.size == gssdf2.size / gssdf2.columns.size
 gssdf2.dtypes
 """#commented so I don't keep reruniing it
-#gssdf2.to_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/GSSVariableSubset4.txt", sep = "|", index = False )
+gssdf2.to_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/GSSVariableSubset4.txt", sep = "|", index = False )
 """
 #oops, wrote to wrong file. Changed file name and code to coresspond ESS --> GSS
 gssdf3 = pd.read_table("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/GSSVariableSubset4.txt", sep = "|")
@@ -134,7 +134,8 @@ search term : essround
   ESS4-2008, ed.4.4
   ESS5-2010, ed.3.3
 """
-essdf1[essdf1.essround == 2] = 2004
+essdf1.mean()
+essdf1["essround" ] = 2004
 
 """ GSS: Sex
 Male 1
@@ -181,8 +182,7 @@ reverseCoding(gssdf4.paytaxes)
 don't run this funtion multiple times
 """
 gssdf4.paytaxes = reverseCoding2(gssdf4.paytaxes)
-essdf1.rename({ "ctzchtx" : "paytaxes"} ,axis = "columns")
-
+essdf1 = essdf1.rename({ "ctzchtx" : "paytaxes"} ,axis = "columns")
 
 
 """
@@ -204,15 +204,21 @@ given it only contains data from Italy
 gssdf5 = gssdf4.drop( columns = ["wtssall", "wtss"]) 
 #I prefer this way of dropping, easier to understand without reading the documentation
 essdf2 = essdf1.drop(columns = ["pweight","dweight"] )
+"""
 gssdf5.to_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/GSSVariableSubset5.txt", sep = "|", index = False )
 essdf2.to_csv("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/ESSVariableSubset5.txt", sep = "|", index = False )
+#commented so it doesn't keep running
+"""
 gssdf5 = pd.read_table("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/GSSVariableSubset5.txt", sep = "|")
 essdf2 = pd.read_table("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/ESSVariableSubset5.txt", sep = "|")
+gssdf5 = gssdf5.rename({"wtssnr" : "weight"}, axis = "columns")
+essdf2 = essdf2.rename({ "essround" : "year", "pspwght" : "weight"}, axis = "columns")
 
+essdf2.columns == gssdf5.columns
+#names line up now!
 
 """
 Now I need to merge the data sets and run the models. maybe run em in python? 
-Also, if I'm using wights, which weights, if any, correspond?
 https://pandas.pydata.org/pandas-docs/stable/merging.html
 """
 
