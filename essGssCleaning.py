@@ -200,6 +200,45 @@ Out[42]: 3.2484026000000004
 Consistent with my expectation from the documentation
 given it only contains data from Italy
 """
+"""colRecoder(dataFrame, colNameString, oldVal, newVal:)
+requires: pandas dataFrame, colNameString must be a string (obviously)
+effects: returns a copy of the column. Does NOT mutate data.
+Thus must be assigned to change data.
+"""
+def colRecoder(dataFrame, colNameString, oldVal, newVal):
+    columnCopy = dataFrame[colNameString].copy()
+    columnCopy[oldVal] = newVal
+    return columnCopy
+
+"""colRecoder2(dataFrame, colName, oldVal, newVal):
+requires: pandas dataFrame, colName must be the columns name (e.g. df.colName), not a string 
+effects: returns a copy of the column. Does NOT mutate data.
+Thus must be assigned to change data.
+"""
+def colRecoder2(dataFrame, colName, oldVal, newVal):
+    columnCopy = dataFrame.colName.copy()
+    columnCopy[oldVal] = newVal
+    return columnCopy
+
+essdf1.paytaxes.min()
+essdf1.paytaxes.max()
+essdf1.paytaxes.mean()
+essdf1.paytaxes.std()
+essdf1.paytaxes = colRecoder(essdf1, "paytaxes", 5, 7)
+essdf1.paytaxes = colRecoder(essdf1, "paytaxes", 4, 6)
+essdf1.paytaxes = colRecoder(essdf1, "paytaxes", 3, 4)
+essdf1.paytaxes.min()
+essdf1.paytaxes.max()
+essdf1.paytaxes.mean()
+essdf1.paytaxes.std()
+""" So I changed it so there is [1,7] but the order is the same
+by adding blanks at 5 and 3. Not elegant but it seems to make sense for 
+an ordinal variable. I don't want to collapse the [1,7] --> [1,5]
+because that would lose information!
+"""    
+
+
+
 
 gssdf5 = gssdf4.drop( columns = ["wtssall", "wtss"]) 
 #I prefer this way of dropping, easier to understand without reading the documentation
@@ -213,6 +252,10 @@ gssdf5 = pd.read_table("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/GSSVariable
 essdf2 = pd.read_table("R:/R_WD/Thesis/JustDeserts/WorldValuesSurvey/ESSVariableSubset5.txt", sep = "|")
 gssdf5 = gssdf5.rename({"wtssnr" : "weight"}, axis = "columns")
 essdf2 = essdf2.rename({ "essround" : "year", "pspwght" : "weight"}, axis = "columns")
+
+essdf2.paytaxes.min() #1
+essdf2.paytaxes.max() #7
+#confiming that the changes were written out to the .txt file
 
 essdf2.columns == gssdf5.columns
 #names line up now!
