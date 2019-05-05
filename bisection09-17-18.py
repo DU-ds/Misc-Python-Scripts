@@ -2,7 +2,6 @@
 """
 Created on Thu Jul 12 00:27:32 2018
 
-@author: Kenneth Collins
 """
 #bisection method for finding roots, inspired by the python script fron the brilliant.org wiki
 
