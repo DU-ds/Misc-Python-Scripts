@@ -1,11 +1,25 @@
 from sys import argv
+import sys
+import os
+import subprocess
 # https://docs.python.org/3/library/sys.html
 
 # print(argv[1])
 
-search = argv[1]
+searchArr = []
+# https://stackoverflow.com/questions/4001652/how-to-initialize-empty-list
 
-searchArr = search.split()
+input1 = argv[1:]
+# https://stackoverflow.com/questions/4426663/how-to-remove-the-first-item-from-a-list
+
+for word in input1:
+   searchArr.append(word)
+
+
+
+# search = argv[1]
+
+# searchArr = search.split()
 # https://stackoverflow.com/questions/17222355/string-split-formatting-in-python-3
 # print (searchArr)
 # print(searchArr[0])
@@ -32,9 +46,9 @@ finalQuery = duckDuckGoURL + "?q=" + query
 
 
 # https://stackoverflow.com/questions/39212541/unable-to-pipe-python-output-to-program
-import sys
+# import sys
 print(finalQuery)
-sys.stdout.flush()
+# sys.stdout.flush()
 
 """
 Search:
@@ -88,3 +102,21 @@ bash user input -- work around firefox pipe issue
 
 control flow in search string for more complex searches
 """
+
+
+# command = 'firefox %s' % finalQuery
+command = ['firefox', finalQuery]
+
+# command2 = 'firefox --search "%s"' search
+# /usr/local/
+
+# https://docs.python.org/3/library/subprocess.html
+pop1 = subprocess.Popen(command)
+# ps2 = subprocess.Popen(command2)
+try:
+   out1, err1 = pop1.communicate(timeout=12)
+except TimeoutExpired:
+   print("Timeout, try again.")
+   pop1.kill
+
+
