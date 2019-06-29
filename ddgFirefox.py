@@ -6,16 +6,7 @@ import subprocess
 
 # print(argv[1])
 
-searchArr = []
-# https://stackoverflow.com/questions/4001652/how-to-initialize-empty-list
-
-input1 = argv[1:]
-# https://stackoverflow.com/questions/4426663/how-to-remove-the-first-item-from-a-list
-
-for word in input1:
-   searchArr.append(word)
-
-
+searchArr = argv[1:]
 
 # search = argv[1]
 
