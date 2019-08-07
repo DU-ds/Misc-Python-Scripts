@@ -1,6 +1,6 @@
+import requests
 
-
-def checkPasswordCharacter(character, username, index = "no index", url):
+def checkPasswordCharacter(character, username, url, index = "no index"):
    """checks for character(s) at specified location in the password 
 
    Args:
@@ -39,6 +39,10 @@ def checkPasswordCharacter(character, username, index = "no index", url):
 
    """
 
+   payload = constructPasswordPayload(character, username, index)
+   query = sendQuery(payload, url)
+   return readQuery(query, username)
+
 
 def sendQuery(payload, url):
    """take an url and opens an http connection with payload as a parameter
@@ -62,7 +66,7 @@ def sendQuery(payload, url):
    r = requests.get(url, params = payload)
    return r.text
 
-def readQuery(query):
+def readQuery(query, username):
    """ reads the html returned by the query and determines if login was successful
 
    Args:
@@ -75,6 +79,7 @@ def readQuery(query):
    Raises: tbd
 
    """
+   return username in query
 
 
 
@@ -146,7 +151,26 @@ def constructSQLQuery(character, username, index = "no index"):
    return sqlQuery;
 
 
+def testPassword(password, username, url):
+   """
+   takes a hypothetical password and username tests it.
 
+   Args:
+      password: string
+         hypothetical password
+      username: string
+         username
+      url:
+         url of the username and password form
+
+   Returns: 
+      boolean
+         true iff username and password pair is valid and correct. 
+
+   Raises:
+      tbd
+
+   """
 
 
 
