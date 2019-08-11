@@ -7,4 +7,25 @@ numbers = "0123456789"
 special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
 # so use .join or """ i guess?
 
+''.join("{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)") + '"'
+
+for ch in lower:
+   # check for ch in 
+   if(checkPasswordCharacter(ch, username, url)):
+      # add it to the list
+
+for ch in numbers:
+   if(checkPasswordCharacter(ch, username, url)):
+      # add it to the list
+
+for ch in special:
+   # check for ch in 
+   if(checkPasswordCharacter(ch, username, url)):
+      # add it to the list
+
+for ch in upper:
+   # check for ch in 
+   if(checkPasswordCharacter(ch, username, url)):
+      # add it to the list
+
 
