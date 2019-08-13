@@ -1,4 +1,42 @@
 
+
+# https://stackoverflow.com/questions/54621596/include-both-single-quote-and-double-quote-in-python-string-variable
+# https://stackoverflow.com/questions/54620287/how-to-include-both-single-and-double-quotes-in-the-same-string-variable-in-pyth
+# special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
+# so use .join or """ i guess?
+special = ''.join("{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)") + '"'
+lower = "abcdefghijklmnopqrstuvwxyz"
+upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+numbers = "0123456789"
+other = ""
+
+
+def assignCharacters(otherChars, where):
+   """makes variables for subsets of the unicode char sets
+   
+   Args:
+      otherChars: string
+         additional characters to concatenate
+      where: string
+         which string to concatenate with otherChars
+   
+   Returns: 
+      where:
+         where concatenated with otherChars
+   
+   """
+   where += otherChars
+   return where
+
+# Global Variables:
+# https://stackoverflow.com/questions/423379/using-global-variables-in-a-function
+# Unbound Local Error:
+# https://stackoverflow.com/questions/9264763/dont-understand-why-unboundlocalerror-occurs
+# Variable Scope:
+# https://stackoverflow.com/questions/370357/python-variable-scope-error
+
+
+
 def makeList(username, url, caseSensitive = False):
    """checks for common characters in the password and returns the characters contained somewhere in the password string
 
@@ -17,38 +55,24 @@ def makeList(username, url, caseSensitive = False):
       charList:
          list of the characters in the password. 
    """
-
-
-
    charList = []
-   lower = "abcdefghijklmnopqrstuvwxyz"
-   upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-   numbers = "0123456789"
-
-   # https://stackoverflow.com/questions/54621596/include-both-single-quote-and-double-quote-in-python-string-variable
-   # https://stackoverflow.com/questions/54620287/how-to-include-both-single-and-double-quotes-in-the-same-string-variable-in-pyth
-   # special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
-   # so use .join or """ i guess?
-
-   special = ''.join("{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)") + '"'
-
    for ch in lower:
       # check for ch in 
       if(checkPasswordCharacter(ch, username, url)):
          charList.append(ch)
-
    for ch in numbers:
       if(checkPasswordCharacter(ch, username, url)):
          charList.append(ch)
-
    for ch in special:
       if(checkPasswordCharacter(ch, username, url)):
          charList.append(ch)
-
-   for ch in upper:
+   for ch in other:
       if(checkPasswordCharacter(ch, username, url)):
-         charList.append(ch)
-
+         charList.append(ch) 
+   if(caseSensitive):
+      for ch in upper:
+         if(checkPasswordCharacter(ch, username, url)):
+            charList.append(ch)
    return charList
 
 
@@ -81,26 +105,19 @@ def checkPass(username, url, charList, n):
    """
    # dikt = {}
    password = ""
-
    for i in range(0, n):
-
       # https://stackoverflow.com/questions/189645/how-to-break-out-of-multiple-loops-in-python
-
       ch = findChar(username, url, charList, i)
-
       # if(isinstance(ch, int))#if ch is int i, can't find a matching character at index i in password string 
       # use try except instead of if(isinstance(ch, int)):
       # https://stackoverflow.com/questions/3501382/checking-whether-a-variable-is-an-integer-or-not
-      
       try: 
          password += ch
       except TypeError:
          print(i)
          raise ValueError("index i has no matching character")
-
       if(testPassword(password, username, url)):
          return password #password is found!
-
    return password #only reached if password is too long for the given n
 
 
@@ -109,11 +126,9 @@ def findChar(username, url, charList, i):
    """helper function for checkPass
    returns the first element of charList found that works for the password at index i
    """
-
    for ch in charList:
          if(checkPasswordCharacter(ch, username, url, index = i)):
             return ch
-
    #only runs if no ch in charList match:
    return i
 
