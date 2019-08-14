@@ -34,9 +34,6 @@ def checkPasswordCharacter(character, username, url, index = "no index"):
          If a request exceeds the configured number of maximum redirections, a TooManyRedirects exception is raised.
          
          All exceptions that Requests explicitly raises inherit from requests.exceptions.RequestException.
-
-      
-
    """
 
    payload = constructPasswordPayload(character, username, index)
