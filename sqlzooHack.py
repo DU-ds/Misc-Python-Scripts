@@ -4,7 +4,8 @@
 # https://stackoverflow.com/questions/54620287/how-to-include-both-single-and-double-quotes-in-the-same-string-variable-in-pyth
 # special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
 # so use .join or """ i guess?
-special = ''.join("{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)") + '"'
+special = ''.join("{|}~[\]^`!#$&'()*+,-./:;<=>?@)") + '"'
+# special = ''.join("{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)") + '"'
 lower = "abcdefghijklmnopqrstuvwxyz"
 upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 numbers = "0123456789"
@@ -54,6 +55,11 @@ def makeList(username, url, caseSensitive = False):
    Returns:
       charList:
          list of the characters in the password. 
+         
+         Note: also returned _ and %. Took those characters out of the character set for now. Add em back later:
+         https://stackoverflow.com/questions/8764370/escaping-special-characters-in-sql
+         https://www.techonthenet.com/sql/like.php
+
    """
    charList = []
    for ch in lower:
@@ -102,6 +108,9 @@ def checkPass(username, url, charList, n):
             raised when no character in charList is correct.
 
    https://stackoverflow.com/questions/2052390/manually-raising-throwing-an-exception-in-python
+   
+   Note: not working as hoped. Perhaps I need to change the other functions to always return a str? Maybe a place holder string like _ for now? 
+
    """
    # dikt = {}
    password = ""
