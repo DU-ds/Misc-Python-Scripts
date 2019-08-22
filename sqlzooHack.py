@@ -126,9 +126,9 @@ def checkPass(username, url, charList, n):
       try: 
          password += ch
       except TypeError:
-         print(i)
-         password += str(ch)
-         raise ValueError("index i has no matching character")
+         # print(i)
+         password += str(ch) #should be blank
+         # raise ValueError("index i has no matching character")
    return password #only reached if password is too long for the given n
 
 
