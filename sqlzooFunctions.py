@@ -35,7 +35,6 @@ def checkPasswordCharacter(character, username, url, index = "no index"):
          
          All exceptions that Requests explicitly raises inherit from requests.exceptions.RequestException.
    """
-
    payload = constructPasswordPayload(character, username, index)
    query = sendQuery(payload, url)
    return readQuery(query, username)
@@ -153,7 +152,7 @@ def constructSQLQuery(character, username, index = "no index"):
 
 def testPassword(password, username, url):
    """
-   takes a hypothetical password and username tests it.
+   Tests a hypothetical password for a given username.
 
    Args:
       password: string

@@ -9,7 +9,7 @@ special = ''.join("{|}~[\]^`!#$&'()*+,-./:;<=>?@)") + '"'
 lower = "abcdefghijklmnopqrstuvwxyz"
 upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 numbers = "0123456789"
-other = ""
+other = " "
 
 
 def assignCharacters(otherChars, where):
@@ -43,7 +43,7 @@ def makeList(username, url, caseSensitive = False):
 
    characters: a-z 0-9 "{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)
       if caseSensitive = True: A-Z
-
+   
    Args:
       username: string
          valid username to check password
@@ -82,6 +82,7 @@ def makeList(username, url, caseSensitive = False):
    return charList
 
 
+
 def checkPass(username, url, charList, n):
    """checks for a character in position i, and records it when the character at postion i was found.
       
@@ -97,7 +98,7 @@ def checkPass(username, url, charList, n):
 
       Returns:
          i: integer
-            returns i iff there is no character in charList that works at position i. also raises type and value error after printing i
+            prints i iff there is no character in charList that matches at position i. also raises type and value error after printing i -- printing is handled by findChar
          password: string
             correct password or, if len(password) = n, first n characters of password    
 
@@ -115,7 +116,9 @@ def checkPass(username, url, charList, n):
    # dikt = {}
    password = ""
    for i in range(0, n):
-      # https://stackoverflow.com/questions/189645/how-to-break-out-of-multiple-loops-in-python
+      if(testPassword(password, username, url)):
+         return password #password is found!       
+       # https://stackoverflow.com/questions/189645/how-to-break-out-of-multiple-loops-in-python
       ch = findChar(username, url, charList, i)
       # if(isinstance(ch, int))#if ch is int i, can't find a matching character at index i in password string 
       # use try except instead of if(isinstance(ch, int)):
@@ -124,22 +127,23 @@ def checkPass(username, url, charList, n):
          password += ch
       except TypeError:
          print(i)
+         password += str(ch)
          raise ValueError("index i has no matching character")
-      if(testPassword(password, username, url)):
-         return password #password is found!
    return password #only reached if password is too long for the given n
-
 
 
 def findChar(username, url, charList, i):
    """helper function for checkPass
    returns the first element of charList found that works for the password at index i
+   if it fails to find a character at i, prints i and returns an empty string instead of returning i.
    """
    for ch in charList:
          if(checkPasswordCharacter(ch, username, url, index = i)):
             return ch
    #only runs if no ch in charList match:
-   return i
+   # return i #oof, there's no match if i is out of bounds, e.g. len(password) < i
+   print(i) #so I know when it's not a match
+   return "" #return an empty string instead
 
 """
    Strategy:
