@@ -4,30 +4,48 @@
 # https://stackoverflow.com/questions/54620287/how-to-include-both-single-and-double-quotes-in-the-same-string-variable-in-pyth
 # special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
 # so use .join or """ i guess?
-special = ''.join("{|}~[\]^`!#$&'()*+,-./:;<=>?@)") + '"'
-# special = ''.join("{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)") + '"'
-lower = "abcdefghijklmnopqrstuvwxyz"
-upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-numbers = "0123456789"
-other = " "
+# special = ''.join("{|}~[\]^`!#$&'()*+,-./:;<=>?@)") + '"'
+special = (" ".join("{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)") + '"').split()
+lower = " ".join("abcdefghijklmnopqrstuvwxyz").split()
+upper = " ".join("ABCDEFGHIJKLMNOPQRSTUVWXYZ").split()
+numbers = " ".join("0123456789").split()
+
+# lower = [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" ]
+# upper = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" ]
+# numbers = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
+# special = [ "{", "|", "}", "~", "[", "\", "]", "^", "`", "!", '#', '$', '&', "'", " ", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", ")", """, ")", "+", '"' ]
+
+# https://stackoverflow.com/questions/28056843/special-characters-in-string-literals#28056873
+other = []
 
 
 def assignCharacters(otherChars, where):
    """makes variables for subsets of the unicode char sets
    
    Args:
-      otherChars: string
-         additional characters to concatenate
-      where: string
-         which string to concatenate with otherChars
+      otherChars: string or list
+         additional characters to concatenate with the variable where
+      where: variable -- string or list
+         which variable to concatenate with otherChars
    
    Returns: 
       where:
          where concatenated with otherChars
    
    """
-   where += otherChars
-   return where
+   if(isinstance(otherChars, list)):
+       where.append(otherChars)
+   if(isinstance(otherChars, str)):
+       tmp = " ".join(otherChars).split()
+       where.append(tmp)
+
+
+       
+#   return where
+   
+# Type checking:   
+# https://stackoverflow.com/questions/1835018/how-to-check-if-an-object-is-a-list-or-tuple-but-not-string#1835044
+# https://stackoverflow.com/questions/26544091/checking-if-type-list-in-python
 
 # Global Variables:
 # https://stackoverflow.com/questions/423379/using-global-variables-in-a-function
@@ -64,21 +82,21 @@ def makeList(username, url, caseSensitive = False):
    charList = []
    for ch in lower:
       # check for ch in 
-      if(checkPasswordCharacter(ch, username, url)):
-         charList.append(ch)
+      if(checkPasswordCharacter(str(ch), username, url)):
+         charList.append(str(ch))
    for ch in numbers:
-      if(checkPasswordCharacter(ch, username, url)):
-         charList.append(ch)
+      if(checkPasswordCharacter(str(ch), username, url)):
+         charList.append(str(ch))
    for ch in special:
-      if(checkPasswordCharacter(ch, username, url)):
-         charList.append(ch)
+      if(checkPasswordCharacter(str(ch), username, url)):
+         charList.append(str(ch))
    for ch in other:
-      if(checkPasswordCharacter(ch, username, url)):
-         charList.append(ch) 
+      if(checkPasswordCharacter(str(ch), username, url)):
+         charList.append(str(ch))
    if(caseSensitive):
       for ch in upper:
-         if(checkPasswordCharacter(ch, username, url)):
-            charList.append(ch)
+         if(checkPasswordCharacter(str(ch), username, url)):
+            charList.append(str(ch))
    return charList
 
 
