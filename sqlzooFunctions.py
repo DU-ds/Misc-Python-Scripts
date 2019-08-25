@@ -185,6 +185,19 @@ def testPassword(password, username, url):
 
 
 
+# implement this stuff next time
+# https://sqlzoo.net/hack/20user.htm
+
+
+def nUsers()
+
+
+def userNameLike()
+
+
+def otherUserNameLike()
+
+
 
 
 
