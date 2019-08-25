@@ -5,7 +5,7 @@ s = []
 for i in range(0,int(1e3)): #1e3 == 10.0 ** 3
    s.append(chr(i))
 
-s = "".join(s)
+# s = "".join(s)
 
 # made a blank file
 # e.g. cat > ~/Documents/unicodeChars.txt
@@ -28,7 +28,7 @@ s = []
 for i in range(int(1e3),int(n)): 
    s.append(chr(i))
 
-s = "".join(s)
+# s = "".join(s)
 
 # made a blank file
 # e.g. cat > ~/Documents/unicodeChars.txt

