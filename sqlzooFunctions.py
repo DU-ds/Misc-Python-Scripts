@@ -204,7 +204,7 @@ def nUsers(n, table, url):
          returns number of users in password table
 
    Raises:
-
+      ValueError: if 2 to the nth power is less than the number of users in the password table
 
 
    """
@@ -212,7 +212,7 @@ def nUsers(n, table, url):
       return 0 #either negative n in arg or less than one entry found
    if(lessThanAEntries(2**n, table, url)): #recursive case
       return nUsers(2**(n-1), table, url) #recursive call shrinks towards -1/2 (2**-1)
-   if(aEntries(2**n, table, url)) #base case
+   if(aEntries(2**n, table, url)): #base case
       return 2**n 
    else: #between n and 2n, so use binary search
       return binarySearch(2**n, 2**(n+1), table, url)
@@ -233,7 +233,7 @@ def binarySearch(a, b, table, url):
    """
    # n = (a + b)//2 # floor of the midpoint, ie integer division (// instead of / for float division)
    n = math.ceil((a + b)/2)
-   if(lessThanAEntries((n, table, url))):
+   if(lessThanAEntries(n, table, url)):
       return binarySearch(a, n, table, url)
    if(aEntries(n, table, url)):
       return n #found it
@@ -243,6 +243,14 @@ def binarySearch(a, b, table, url):
    else:
       return binarySearch(n, b, table, url)
 
+"""
+manual tests of binary search. Not as good as unit tests but still useful!
+binarySearch fails when a == n (which is an input it wasn't designed for so no surprise)
+binarySearch works when b < n (which is an input it was designed for so no surprise) -- should raise a ValueError and does!
+binarySearch works when a and b are floats(eg 2.5, 16.12) (which is an input it wasn't designed for so nice little surprise)
+binarySearch fails when a > b (which is an input it wasn't designed for so no surprise)
+failures are loops that end when ended by the user or (presumably) when resources are exhausted. 
+"""
 
 
 
@@ -296,11 +304,11 @@ def aEntries(a, table, url):
    return readQuery(txt)
 
 
-def userNameLike()
+def userNameLike():
+   return "poop"
 
-
-def otherUserNameLike()
-
+def otherUserNameLike():
+   return "poop"
 
 
 
