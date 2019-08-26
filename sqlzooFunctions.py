@@ -304,11 +304,29 @@ def aEntries(a, table, url):
    return readQuery(txt)
 
 
-def userNameLike():
-   return "poop"
+def userNameLike(ch, url, notLike = False, notLikeName = ""):
+   """
 
-def otherUserNameLike():
-   return "poop"
+   Args: 
+      ch: String
+         string to check for matches in user table. e.g. r matches Rob, Karen, J.R.R. Tolkien  
+      url: String
+         string of url to form
+      notLike: Boolean
+         If set to true, will include a name does not equal notLikeName clause
+      notLikeName: string
+         name to exclude from query
+
+   """
+   payload = "' OR EXISTS(SELECT * FROM users WHERE "
+   if(notLike):
+      payload += "name!= '" + notLikeName + "' AND "
+   payload += "name LIKE '%" + ch + "%') AND ''='"
+   payload = {"name" : payload, "password" : payload}
+   txt = sendQuery(payload, url)
+   return readQuery(txt)
+
+
 
 
 
