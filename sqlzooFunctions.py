@@ -486,10 +486,7 @@ def characterInDatabaseName(ch, url, index = "no index"):
    payload = NamePasswordDictionary(payload, "name", "password")
    txt = sendQuery(payload, url)
    mhm = readQuery(txt)
-   return mhm 
-
-
-
+   return mhm
 
 def constructDatabaseQuery(ch, index = "no index"):
    """helper function for characterInDatabaseName"""
