@@ -17,7 +17,7 @@ numbers = " ".join("0123456789").split()
 
 # https://stackoverflow.com/questions/28056843/special-characters-in-string-literals#28056873
 other = []
-wildcards = {"_", "%"}
+wildcards = ["_", "%"]
 
 
 def assignCharacters(otherChars, where):
