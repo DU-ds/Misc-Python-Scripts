@@ -189,4 +189,15 @@ def findChar(username, url, charList, i):
    
 """
 
+def makeTableList():
+   """ List of characters in table names"""
+
+def makeDatabaseList():
+   """ List of characters in database names"""
+
+def make makeTableNamesList():
+   """ List of table names"""
+
+def makeDatabaseNamesList():
+   """ List of database names"""
 
