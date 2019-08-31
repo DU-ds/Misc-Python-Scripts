@@ -189,15 +189,80 @@ def findChar(username, url, charList, i):
    
 """
 
-def makeTableList():
-   """ List of characters in table names"""
+def makeTableList(url, caseSensitive = False, wildCards = True):
+   """ List of characters in table names
+   
+   Args:
+      url: String
+         form url
+      caseSensitive: Boolean
+         default False
+         true if case sentitivity matters
+      wildCards: Boolean
+         default True
+         true if wildcards should be placed where no other characters match
+
+   Returns:
+      lst: List
+         list of characters in table names
+
+   """
 
 def makeDatabaseList():
-   """ List of characters in database names"""
+   """ List of characters in database names
 
-def make makeTableNamesList():
-   """ List of table names"""
+   Args:
+      url: String
+         form url
+      caseSensitive: Boolean
+         default False
+         true if case sentitivity matters
+      wildCards: Boolean
+         default True
+         true if wildcards should be placed where no other characters match
 
-def makeDatabaseNamesList():
-   """ List of database names"""
+   Returns:
+      lst: List
+         list of characters in table names
 
+"""
+
+def make makeTableNamesList(n, ):
+   """ List of table names
+   
+   Args:
+      n: integer
+         max number of table names to return
+      
+
+   Returns:
+      lst: list
+         list of up to n table names
+   """
+
+def makeDatabaseNamesList(n, ):
+   """ List of database names
+   
+   Args:
+      n: integer
+         max number of table names to return
+      
+
+   Returns:
+      lst: list
+         list of up to n database names
+
+"""
+
+"""
+is sql case sensitive?
+
+it can be:
+https://stackoverflow.com/questions/3969059/sql-case-sensitive-string-compare
+
+some commands to check and alter collation:
+https://stackoverflow.com/questions/14962419/is-the-like-operator-case-sensitive-with-mssql-server
+https://stackoverflow.com/questions/1411161/sql-server-check-case-sensitivity
+https://stackoverflow.com/questions/1831105/how-to-do-a-case-sensitive-search-in-where-clause-im-using-sql-server
+
+"""
