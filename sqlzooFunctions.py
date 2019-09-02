@@ -519,4 +519,15 @@ def checkTableName():
 def checkDatabaseName():
 
 
+"""
+toDo
 
+   continue implementing functions
+
+   abstract repeated functions into seperate functions: 
+   pass parts that don't repeat as functions, which are just regular parameters!!!
+   https://stackoverflow.com/questions/1349332/python-passing-a-function-into-another-function#1349350
+
+   make functions that go beyond this database. Things like
+      Sleep function
+"""

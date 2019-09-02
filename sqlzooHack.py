@@ -207,6 +207,35 @@ def makeTableList(url, caseSensitive = False, wildCards = True):
          list of characters in table names
 
    """
+   charList = []
+   for ch in lower:
+      # ch = str(ch)
+      if(characterInTableName(ch, url)):
+         charList.append(ch)
+   for ch in numbers:
+      ch = str(ch)
+      if(characterInTableName(ch, url)):
+         charList.append(ch)
+   for ch in special:
+      ch = str(ch)
+      if(characterInTableName(ch, url)):
+         charList.append(ch)
+   for ch in other:
+      ch = str(ch)
+      if(characterInTableName(ch, url)):
+         charList.append(ch)
+   if(caseSensitive):
+      for ch in upper:
+         # ch = str(ch)
+         if(characterInTableName(ch, url)):
+            charList.append(ch, url)
+   if(wildCards):
+      for ch in wildCards:
+         # ch = str(ch)
+         if(characterInTableName(ch, url)):
+            charList.append(ch, url)
+   return charList
+
 
 def makeDatabaseList():
    """ List of characters in database names
@@ -226,6 +255,34 @@ def makeDatabaseList():
          list of characters in table names
 
 """
+   charList = []
+   for ch in lower:
+      # ch = str(ch)
+      if(characterInDatabaseName(ch, url)):
+         charList.append(ch)
+   for ch in numbers:
+      ch = str(ch)
+      if(characterInDatabaseName(ch, url)):
+         charList.append(ch)
+   for ch in special:
+      ch = str(ch)
+      if(characterInDatabaseName(ch, url)):
+         charList.append(ch)
+   for ch in other:
+      ch = str(ch)
+      if(characterInDatabaseName(ch, url)):
+         charList.append(ch)
+   if(caseSensitive):
+      for ch in upper:
+         # ch = str(ch)
+         if(characterInDatabaseName(ch, url)):
+            charList.append(ch, url)
+   if(wildCards):
+      for ch in wildCards:
+         # ch = str(ch)
+         if(characterInDatabaseName(ch, url)):
+            charList.append(ch, url)
+   return charList
 
 def make makeTableNamesList(n, ):
    """ List of table names
@@ -264,5 +321,20 @@ some commands to check and alter collation:
 https://stackoverflow.com/questions/14962419/is-the-like-operator-case-sensitive-with-mssql-server
 https://stackoverflow.com/questions/1411161/sql-server-check-case-sensitivity
 https://stackoverflow.com/questions/1831105/how-to-do-a-case-sensitive-search-in-where-clause-im-using-sql-server
+
+"""
+
+
+"""
+toDo
+   
+   continue implementing functions
+
+   abstract repeated functions into seperate functions: 
+   pass parts that don't repeat as functions, which are just regular parameters!!!
+      e.g. makeList makeTableList and makeDatabaseList can be rewriten with a function f 
+      replacing checkPasswordCharacter characterInTableName characterInDatabaseName 
+      and those functions being passed as the parameter f
+   https://stackoverflow.com/questions/1349332/python-passing-a-function-into-another-function#1349350
 
 """
