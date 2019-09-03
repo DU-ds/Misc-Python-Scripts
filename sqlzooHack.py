@@ -311,6 +311,18 @@ def makeDatabaseNamesList(n, ):
 
 """
 
+def makeListF(f, url, *argsf, caseSensitive = False, wildCards = True):
+   """makeList generalized to use the boolean function f.
+
+   Args:
+      argsf: list
+         sole list argument of the function f.
+   Returns:
+      lst: list of valid characters as determined by the boolean function f
+
+   """
+
+
 """
 is sql case sensitive?
 
