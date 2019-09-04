@@ -415,7 +415,8 @@ def constructTableQuery(ch, index):
    #do I even need the AND ''=' part? it evaluates to '' = '' which is true so true/false AND true? Seems redundant
    return payload
 
-def nTablesMatch(n, ch, url, index = "no index"): # 89 tables with "h", "a", "c"; 2  tables with "k"
+def nTablesMatch(n, ch, url, index = "no index"): 
+   # 89 tables with "h", "a", "c"; 2  tables with "k", 112 tables total
    """ how many tables match
 
    Args:
