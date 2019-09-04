@@ -284,7 +284,7 @@ def makeDatabaseList():
             charList.append(ch, url)
    return charList
 
-def make makeTableNamesList(n, ):
+def makeTableNamesList(n, ):
    """ List of table names
    
    Args:
@@ -296,6 +296,19 @@ def make makeTableNamesList(n, ):
       lst: list
          list of up to n table names
    """
+
+
+def tableName(lst, ):
+
+   name = ""
+   for i in range(0, n):
+      for ch in lst:
+         if(characterInTableName(ch, url, i)):
+            name += ch
+         else:
+            name += "" #should only be reached if wildcards are false
+
+   return name
 
 def makeDatabaseNamesList(n, ):
    """ List of database names
