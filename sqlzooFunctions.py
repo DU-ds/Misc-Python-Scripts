@@ -515,10 +515,10 @@ https://docs.python.org/3/tutorial/controlflow.html#more-on-defining-functions
 """
 
 def checkTableName():
-
+    pass
 
 def checkDatabaseName():
-
+    pass
 
 """
 toDo
