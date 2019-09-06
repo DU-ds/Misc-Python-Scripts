@@ -336,6 +336,51 @@ def makeListF(f, url, *argsf, caseSensitive = False, wildCards = True):
    """
 
 
+
+   def userLists():
+
+   """
+   Assumption: usernames are unique. 
+
+   Args:
+
+   Returns:
+
+   Exceptions:
+
+
+   """
+
+
+
+   """
+   Strategy:
+   
+   set an n (max password length)
+   
+   iterate over character set n times, checking for character in positions 0 ... n -1.
+   Stop iterating if only wildcards match (assumes all 
+   wildcards means that I've exceeded the length of all
+   passwords, not that the passwords are all wildcards) --- wait
+   wouldn't nothing match in that case? Investigate! 
+
+   return a list of lists with up to n lists! 
+   This list can be used to find individual passwords!
+   """
+
+   """
+   Inputs: list of lists, n. n is the number of passwords to be found (nUsers can give the n for this).
+   nested loops testing characters in this character set? This seems like a bad idea... 
+   Scaling this leads to basically brute forcing the passwords with more programming logic...
+   There must be a better way to do this but idk...
+   Well maybe usernames tend to have patterns so this is still a useful reduction in the search space?
+   Still would prefer a better way!
+   """
+
+
+
+
+
 """
 is sql case sensitive?
 
