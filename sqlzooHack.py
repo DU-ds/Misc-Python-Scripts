@@ -5,7 +5,8 @@
 # special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
 # so use .join or """ i guess?
 # special = ''.join("{|}~[\]^`!#$&'()*+,-./:;<=>?@)") + '"'
-special = " ".join("{|}~[\]^`!#$&()*+,-./:;<=>?@)").split().append(" ")
+special = " ".join("{|}~[\]^`!#$&()*+,-./:;<=>?@)").split()
+special.append(" ")
 lower = " ".join("abcdefghijklmnopqrstuvwxyz").split()
 upper = " ".join("ABCDEFGHIJKLMNOPQRSTUVWXYZ").split()
 numbers = " ".join("0123456789").split()
@@ -336,7 +337,7 @@ def makeListF(f, url, *argsf, caseSensitive = False, wildCards = True):
 
    """
 
-   def userNameCharacters(ch, url, tableName, caseSensitive = False, wildCards = True):
+def userNameCharacters(url, tableName, caseSensitive = False, wildCards = True):
    """ returns list of characters that appear in any username
    
 
@@ -359,12 +360,12 @@ def makeListF(f, url, *argsf, caseSensitive = False, wildCards = True):
       for ch in upper:
          if(checkUsernameCharacter(ch, url, tableName,  notLike = False, notLikeName = "", index = "no index")):
             lst.append(ch)
-   if(wildCards)
+   if(wildCards):
       for ch in wildcards:
          lst.append(ch) #it'll match if there's users
    return lst
 
-   def userLists(n, tableName, characterList, caseSensitive = False, wildCards = True):
+def userLists(n, tableName, characterList, caseSensitive = False, wildCards = True):
 
    """
    Assumption: usernames are unique. 
@@ -462,3 +463,17 @@ toDo
    https://stackoverflow.com/questions/1349332/python-passing-a-function-into-another-function#1349350
 
 """
+
+"""
+ran python script sending network data between linux machine and sqlzoo.net
+opened wireshark and captured data
+looked at traffic, found DNS request from 127.0.0.1 --> 127.0.0.53
+that sqlzoo.net ip address is 146.176.166.58
+visited in browser
+found it's a related page that links to different projects
+found it's by Dr Gordon Russell of Edinburgh Napier University
+so sqlzoo hacking forum is by Gordon Russell, a cyber security prof from the UK
+https://www.napier.ac.uk/people/gordon-russell
+makes sense -- sqlzoo.net has a blurb about sqli being illegal under UK law
+"""
+
