@@ -5,7 +5,7 @@
 # special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
 # so use .join or """ i guess?
 # special = ''.join("{|}~[\]^`!#$&'()*+,-./:;<=>?@)") + '"'
-special = " ".join("{|}~[\]^`!#$&()*+,-./:;<=>?@)").split()
+special = " ".join("{|}~[\]^`!#$&()*+,-./:;<=>?@)").split().append(" ")
 lower = " ".join("abcdefghijklmnopqrstuvwxyz").split()
 upper = " ".join("ABCDEFGHIJKLMNOPQRSTUVWXYZ").split()
 numbers = " ".join("0123456789").split()
