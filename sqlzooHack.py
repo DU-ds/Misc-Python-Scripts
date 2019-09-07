@@ -5,7 +5,7 @@
 # special = {|}~[\]^_`!"#$%&'()*+,-./:;<=>?@)
 # so use .join or """ i guess?
 # special = ''.join("{|}~[\]^`!#$&'()*+,-./:;<=>?@)") + '"'
-special = (" ".join("{|}~[\]^`!#$&'()*+,-./:;<=>?@)") + '"').split()
+special = " ".join("{|}~[\]^`!#$&()*+,-./:;<=>?@)").split()
 lower = " ".join("abcdefghijklmnopqrstuvwxyz").split()
 upper = " ".join("ABCDEFGHIJKLMNOPQRSTUVWXYZ").split()
 numbers = " ".join("0123456789").split()
@@ -298,6 +298,7 @@ def makeTableNamesList(n, ):
    """
 
 
+
 def tableName(lst, ):
 
    name = ""
@@ -335,23 +336,75 @@ def makeListF(f, url, *argsf, caseSensitive = False, wildCards = True):
 
    """
 
+   def userNameCharacters(ch, url, tableName, caseSensitive = False, wildCards = True):
+   """ returns list of characters that appear in any username
+   
 
+   """
+   lst = []
 
-   def userLists():
+   for ch in special:
+      if(checkUsernameCharacter(ch, url, tableName,  notLike = False, notLikeName = "", index = "no index")):
+         lst.append(ch)
+   for ch in lower:
+      if(checkUsernameCharacter(ch, url, tableName,  notLike = False, notLikeName = "", index = "no index")):
+         lst.append(ch)
+   for ch in numbers:
+      if(checkUsernameCharacter(ch, url, tableName,  notLike = False, notLikeName = "", index = "no index")):
+         lst.append(ch)
+   for ch in other:
+      if(checkUsernameCharacter(ch, url, tableName,  notLike = False, notLikeName = "", index = "no index")):
+         lst.append(ch)
+   if(caseSensitive):
+      for ch in upper:
+         if(checkUsernameCharacter(ch, url, tableName,  notLike = False, notLikeName = "", index = "no index")):
+            lst.append(ch)
+   if(wildCards)
+      for ch in wildcards:
+         lst.append(ch) #it'll match if there's users
+   return lst
+
+   def userLists(n, tableName, characterList, caseSensitive = False, wildCards = True):
 
    """
    Assumption: usernames are unique. 
 
    Args:
+      n: integer
+         max password length
+      tableName: string
+         name of table with usernames
+      characterList:
+         list of characters in one or more usernames
+      caseSensitive: boolean
+         default False
+         set to true if table is case sensitive.
+      wildCards: boolean
+         default True
+         substitutes in wildcards. 
+
 
    Returns:
+      lstNested: list of lists
+         returns a list of lists
 
-   Exceptions:
+   Raises:
 
 
    """
+   lstNested = []
+   for i in range(0, n):
+      lst = []
+      for ch in characterList:
+         if(checkUsernameCharacter(ch, url, tableName,  notLike = False, notLikeName = "", index = i)):
+            lst.append(ch)
+      lstNested.append(lst)
+   return lstNested
 
-
+   """
+   Strategy:
+   first find the set of characters anywhere in any username. Pass this list to userLists.
+   """
 
    """
    Strategy:
@@ -369,6 +422,7 @@ def makeListF(f, url, *argsf, caseSensitive = False, wildCards = True):
    """
 
    """
+   Strategy:
    Inputs: list of lists, n. n is the number of passwords to be found (nUsers can give the n for this).
    nested loops testing characters in this character set? This seems like a bad idea... 
    Scaling this leads to basically brute forcing the passwords with more programming logic...
