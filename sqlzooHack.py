@@ -365,7 +365,7 @@ def userNameCharacters(url, tableName, caseSensitive = False, wildCards = True):
          lst.append(ch) #it'll match if there's users
    return lst
 
-def userLists(n, tableName, characterList, caseSensitive = False, wildCards = True):
+def userLists(n, tableName, url, characterList):
 
    """
    Assumption: usernames are unique. 
@@ -375,15 +375,10 @@ def userLists(n, tableName, characterList, caseSensitive = False, wildCards = Tr
          max password length
       tableName: string
          name of table with usernames
+      url: string
+         url of vulnerable form
       characterList:
          list of characters in one or more usernames
-      caseSensitive: boolean
-         default False
-         set to true if table is case sensitive.
-      wildCards: boolean
-         default True
-         substitutes in wildcards. 
-
 
    Returns:
       lstNested: list of lists
@@ -399,8 +394,22 @@ def userLists(n, tableName, characterList, caseSensitive = False, wildCards = Tr
       for ch in characterList:
          if(checkUsernameCharacter(ch, url, tableName,  notLike = False, notLikeName = "", index = i)):
             lst.append(ch)
+      if(len(lst) == 0 or lst[0] == "%"):
+         break
       lstNested.append(lst)
    return lstNested
+
+   """
+   max(len(username)) is 9. So userLists(12, tab) returns a list with 9 lists (0-8) 
+   matching letters, and both wildcards; the 9th matches only '%' 
+   i.e. the 0 or more character wildcard and after that returns empty lists.
+   This makes sense b/c as i increases, so does the number of single character matches increases. 
+   So, for i = 2 there's "_" + ch
+   So changing it to now check if the sublist has the zero or more character wildcard 
+   character first or an empty list and breaking if either of those is found.
+   Empty list would happen if wildcards were not included in the characterList
+   """
+
 
    """
    Strategy:
