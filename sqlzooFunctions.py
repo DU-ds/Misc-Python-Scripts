@@ -307,6 +307,11 @@ def aEntries(a, table, url):
    mhm = readQuery(txt)
    return mhm 
 
+def checkUsername(username, url, tableName):
+"""
+
+"""
+
 
 def userNameLike(ch, url, tableName, notLike = False, notLikeName = ""):
    """

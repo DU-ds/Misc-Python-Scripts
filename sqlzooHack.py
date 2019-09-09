@@ -1,4 +1,4 @@
-
+import itertools
 
 # https://stackoverflow.com/questions/54621596/include-both-single-quote-and-double-quote-in-python-string-variable
 # https://stackoverflow.com/questions/54620287/how-to-include-both-single-and-double-quotes-in-the-same-string-variable-in-pyth
@@ -382,7 +382,10 @@ def userLists(n, tableName, url, characterList):
 
    Returns:
       lstNested: list of lists
-         returns a list of lists
+         returns a list of up to n lists, each sublist i contatins characters
+         from characterList that match at least one username at index i in the 
+         username strings 
+         (e.g. lst = [[a], [b,c], [d]] could correspond to a, ab, ac, abd, acd)
 
    Raises:
 
@@ -409,6 +412,111 @@ def userLists(n, tableName, url, characterList):
    character first or an empty list and breaking if either of those is found.
    Empty list would happen if wildcards were not included in the characterList
    """
+
+def userNames(lst, url, tableName):
+   """ returns a list of usernames
+
+   Args:
+      lst: nested list
+         nested list. Intended to be userLists. 
+      url: string
+         url of vulnerable form
+      tableName: string
+         table with usernames
+
+
+
+   """
+   # https://docs.python.org/3/library/itertools.html#itertools.product
+   # https://stackoverflow.com/questions/3034014/how-to-apply-itertools-product-to-elements-of-a-list-of-lists
+   lst2 = list(itertools.product(*lst))
+   lst3 =  list(map("".join, lst2))
+   list(map(checkUsername())) 
+   # still need a checkUsername function 
+"""
+   url = "https://sqlzoo.net/hack/passwd.pl"
+tab = "users"
+chList = userNameCharacters(url, tab)
+lst = userLists(10, tab, url, chList)
+   n = 1
+
+   for i in lst:
+       n *= len(i)
+
+   n
+Out[69]: 46656000
+
+len(chList)
+Out[72]: 16
+
+   math.factorial(16)
+Out[74]: 20922789888000
+
+   math.factorial(16)/len(lst2)
+Out[75]: 448448.0
+
+   len(lst2)
+Out[76]: 46656000
+
+   so turns out this makes a REALLY large number of requests to send a server...
+"""
+"""
+the pattern made by itertools.product:
+
+lst
+Out[78]: 
+[['a',  'c',  'd',  'e',  'h',  'i',  'j',  'k',  'n',  'o',  'p',  'r',  't',  'w', '_',  '%'],
+ ['a', 'c', 'd', 'e', 'h', 'i', 'k', 'n', 'o', 'p', 'r', 't', 'w', '_', '%'],
+ ['a', 'c', 'd', 'e', 'h', 'i', 'k', 'n', 'p', 'w', '_', '%'],
+ ['a', 'c', 'd', 'e', 'i', 'n', 'p', '_', '%'],
+ ['e', 'i', 'n', 'p', '_', '%'],
+ ['e', 'i', 'p', '_', '%'],
+ ['e', 'i', 'p', '_', '%'],
+ ['e', 'i', '_', '%'],
+ ['e', '_', '%']]
+
+for l in lst:
+    print(len(l))
+16
+15
+12
+9
+6
+5
+5
+4
+3
+
+lst2[0]
+Out[94]: ('a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'e')
+
+lst2[1]
+Out[79]: ('a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', '_')
+
+lst2[3]
+Out[80]: ('a', 'a', 'a', 'a', 'e', 'e', 'e', 'i', 'e')
+
+lst2[12]
+Out[81]: ('a', 'a', 'a', 'a', 'e', 'e', 'i', 'e', 'e')
+
+lst2[60]
+Out[82]: ('a', 'a', 'a', 'a', 'e', 'i', 'e', 'e', 'e')
+
+lst2[60*5]
+Out[83]: ('a', 'a', 'a', 'a', 'i', 'e', 'e', 'e', 'e')
+
+lst2[60*5*6]
+Out[84]: ('a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'e')
+
+lst2[60*5*6*9]
+Out[85]: ('a', 'a', 'c', 'a', 'e', 'e', 'e', 'e', 'e')
+
+lst2[60*5*6*9*12]
+Out[86]: ('a', 'c', 'a', 'a', 'e', 'e', 'e', 'e', 'e')
+
+lst2[60*5*6*9*12*15]
+Out[87]: ('c', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'e')
+"""
 
 
    """
