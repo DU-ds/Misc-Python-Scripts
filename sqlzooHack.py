@@ -592,5 +592,13 @@ found it's by Dr Gordon Russell of Edinburgh Napier University
 so sqlzoo hacking forum is by Gordon Russell, a cyber security prof from the UK
 https://www.napier.ac.uk/people/gordon-russell
 makes sense -- sqlzoo.net has a blurb about sqli being illegal under UK law
+Actually looks like the other pages are by other faculty at Edinburgh Napier University
+e.g. https://www.soc.napier.ac.uk/~andrew/
+So maybe Dr Russell wasnt the one who made that. In fact, Look at this,
+http://shop.oreilly.com/product/9780596527990.do
+So maybe it was Dr. Cumming and Dr. Russell? Since they're coauthors of a
+SQL book (SQL Hacks 
+Tips & Tools for Digging Into Your Data) 
+that includes avoiding "the dreaded SQL injection attack"
 """
 
