@@ -413,6 +413,58 @@ def userLists(n, tableName, url, characterList):
    Empty list would happen if wildcards were not included in the characterList
    """
 
+"""
+Maybe I should test sequences. So if a, b, c, d, and e match (from userNameCharacters)
+then test ab, ac, ad, ae, etc. and put use those as building blocks.
+Then build strings that conform to those parameters.
+Hmmm, that might not be too useful for large databases,
+unless it turns out usernames have nice patters.
+Which seems to actually be a reasonable assumption. 
+dbbdd doesn't show up in english (or any language I know of)
+but dad, bad, dab, cab, bed do. Maybe usernames have some patterns too!
+"""
+
+def checkUsernameSequences(n, ch, url, tableName, maxLen = 2):
+   """construct sequences and use those to inform the choice of strings. So if a,b,c,d matches, check aa, ab, ac, ad, ba, bb, bc, bd, ca, cb, cc, cd, da, db, dc, dd. 
+      
+      Args:
+         n: integer
+            max number of characters in any username. -- len(userLists()) could work!
+         ch: list
+            characters intended to make sequences -- e.g. from userNameCharacters
+            assumed all elements in list match 
+         url: string
+            vulnearble form
+         tableName: string
+            table with usernames
+         maxLen: int
+            maximum length of the sequences.
+            default is 2
+      
+      Returns:
+         seqLst:
+            list of matching sequences
+   """
+   strLst = ch
+   # assumes all of ch is a match
+   for k in range(2, maxLen + 1):
+      lst = generateSubSequences(k, ch)
+      sublst = [x for x in generateSubSequences if userNameLike(x, url, tableName)]
+# list comprehensions with conditions:
+# https://stackoverflow.com/questions/6475314/python-for-in-loop-preceded-by-a-variable
+      strLst += sublst
+   return strLst
+
+
+def generateSubSequences(k, ch):
+   """
+   generates all subsequences of ch with length k
+
+   """
+   seq = ["".join(c) for c in itertools.product(ch, repeat = k)]
+# discussion about the best way to do this:
+# https://stackoverflow.com/questions/7074051/what-is-the-best-way-to-generate-all-possible-three-letter-strings
+
 def userNames(lst, url, tableName):
    """ returns a list of usernames
 
@@ -429,9 +481,13 @@ def userNames(lst, url, tableName):
    """
    # https://docs.python.org/3/library/itertools.html#itertools.product
    # https://stackoverflow.com/questions/3034014/how-to-apply-itertools-product-to-elements-of-a-list-of-lists
-   lst2 = list(itertools.product(*lst))
-   lst3 =  list(map("".join, lst2))
-   list(map(checkUsername())) 
+   lst = list(itertools.product(*lst))
+   lst2 =  list(map("".join, lst))
+   lst = [x for x in lst2 if checkUsername(x, url, tableName)]
+   # lst = list(map(checkUsername, lst2))
+   return lst
+
+
    # still need a checkUsername function 
 """
    url = "https://sqlzoo.net/hack/passwd.pl"

