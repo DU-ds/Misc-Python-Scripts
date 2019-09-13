@@ -366,7 +366,6 @@ def userNameCharacters(url, tableName, caseSensitive = False, wildCards = True):
    return lst
 
 def userLists(n, tableName, url, characterList):
-
    """
    Assumption: usernames are unique. 
 
@@ -401,7 +400,6 @@ def userLists(n, tableName, url, characterList):
          break
       lstNested.append(lst)
    return lstNested
-
    """
    max(len(username)) is 9. So userLists(12, tab) returns a list with 9 lists (0-8) 
    matching letters, and both wildcards; the 9th matches only '%' 
@@ -464,6 +462,7 @@ def generateSubSequences(k, ch):
    seq = ["".join(c) for c in itertools.product(ch, repeat = k)]
 # discussion about the best way to do this:
 # https://stackoverflow.com/questions/7074051/what-is-the-best-way-to-generate-all-possible-three-letter-strings
+   return seq
 
 def userNames(lst, url, tableName):
    """ returns a list of usernames
@@ -483,6 +482,10 @@ def userNames(lst, url, tableName):
    # https://stackoverflow.com/questions/3034014/how-to-apply-itertools-product-to-elements-of-a-list-of-lists
    lst = list(itertools.product(*lst))
    lst2 =  list(map("".join, lst))
+   #
+   # Maybe use checkUsernameSequences here,
+   # then add a check to reduce the amount of possibilities before building lst?
+   #
    lst = [x for x in lst2 if checkUsername(x, url, tableName)]
    # lst = list(map(checkUsername, lst2))
    return lst

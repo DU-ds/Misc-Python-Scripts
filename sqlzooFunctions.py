@@ -345,7 +345,7 @@ def userNameLike(ch, url, tableName, notLike = False, notLikeName = ""):
    payload = {"name" : payload, "password" : payload}
    txt = sendQuery(payload, url)
    mhm = readQuery(txt)
-   return mhm 
+   return mhm
 
 def checkUsernameCharacter(ch, url, tableName,  notLike = False, notLikeName = "", index = "no index"):
    """checks for character(s) at specified location in any username in table
