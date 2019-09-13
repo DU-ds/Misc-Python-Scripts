@@ -422,7 +422,7 @@ dbbdd doesn't show up in english (or any language I know of)
 but dad, bad, dab, cab, bed do. Maybe usernames have some patterns too!
 """
 
-def checkUsernameSequences(n, ch, url, tableName, maxLen = 2):
+def checkUsernameSequences(n, ch, url, tableName, minLen = 1, maxLen = 2):
    """construct sequences and use those to inform the choice of strings. So if a,b,c,d matches, check aa, ab, ac, ad, ba, bb, bc, bd, ca, cb, cc, cd, da, db, dc, dd. 
       
       Args:
@@ -435,17 +435,22 @@ def checkUsernameSequences(n, ch, url, tableName, maxLen = 2):
             vulnearble form
          tableName: string
             table with usernames
+         minLen: int
+            minimum length of sequences. will not check sequences length less than minLen 
          maxLen: int
-            maximum length of the sequences.
+            maximum length of the sequences. will not check sequences longer than maxLen
             default is 2
       
       Returns:
          seqLst:
             list of matching sequences
    """
-   strLst = ch
+   if(minLen == 1):
+      strLst = ch
    # assumes all of ch is a match
-   for k in range(2, maxLen + 1):
+   else:
+      strLst = ""
+   for k in range(minLen, maxLen + 1):
       lst = generateSubSequences(k, ch)
       sublst = [x for x in generateSubSequences if userNameLike(x, url, tableName)]
 # list comprehensions with conditions:
@@ -478,15 +483,32 @@ def userNames(lst, url, tableName):
 
 
    """
+   n = len(lst)
    # https://docs.python.org/3/library/itertools.html#itertools.product
    # https://stackoverflow.com/questions/3034014/how-to-apply-itertools-product-to-elements-of-a-list-of-lists
-   lst = list(itertools.product(*lst))
-   lst2 =  list(map("".join, lst))
+   lst2 = list(itertools.product(*lst))
+   lst3 =  list(map("".join, lst2))
    #
    # Maybe use checkUsernameSequences here,
    # then add a check to reduce the amount of possibilities before building lst?
    #
-   lst = [x for x in lst2 if checkUsername(x, url, tableName)]
+
+   seq = checkUsernameSequences(n, lst, url, tableName, minLen = 2, maxLen = 2)
+   # does not include the single characters since minLen > 1
+
+   lst4 = 
+   """# next time:
+   find matching strings. That should (hopefully) reduce the space to search. 
+   REMEMBER, this filtering will miss all single character usernames!!!
+
+   https://docs.python.org/3/library/re.html#regular-expression-syntax
+   https://stackoverflow.com/questions/3640359/regular-expressions-search-in-list
+   https://stackoverflow.com/questions/3040716/python-elegant-way-to-check-if-at-least-one-regex-in-list-matches-a-string
+   https://stackoverflow.com/questions/19300020/python-match-a-string-with-regex
+   https://stackoverflow.com/questions/37974047/if-any-strings-in-a-list-match-regex
+"""
+
+   lst = [x for x in lst3 if checkUsername(x, url, tableName)]
    # lst = list(map(checkUsername, lst2))
    return lst
 
