@@ -1,4 +1,5 @@
 import itertools
+import re
 
 # https://stackoverflow.com/questions/54621596/include-both-single-quote-and-double-quote-in-python-string-variable
 # https://stackoverflow.com/questions/54620287/how-to-include-both-single-and-double-quotes-in-the-same-string-variable-in-pyth
@@ -496,7 +497,7 @@ def userNames(lst, url, tableName):
    seq = checkUsernameSequences(n, lst, url, tableName, minLen = 2, maxLen = 2)
    # does not include the single characters since minLen > 1
 
-   lst4 = 
+   lst4 = filt(seq, lst3)
    """# next time:
    find matching strings. That should (hopefully) reduce the space to search. 
    REMEMBER, this filtering will miss all single character usernames!!!
@@ -508,9 +509,27 @@ def userNames(lst, url, tableName):
    https://stackoverflow.com/questions/37974047/if-any-strings-in-a-list-match-regex
 """
 
-   lst = [x for x in lst3 if checkUsername(x, url, tableName)]
+   lst5 = [x for x in lst4 if checkUsername(x, url, tableName)]
    # lst = list(map(checkUsername, lst2))
-   return lst
+   return lst5
+
+
+def filt(seq, lst):
+   """
+   filters lst. returns 
+
+   Args:
+      seq: list
+      lst: list
+   Returns: 
+      slst: list
+         elements of lst that match at least one element of seq
+
+   """
+   regex = "(" + ")|(".join(seq) + ")"
+   regex = re.compile(regex)
+   slst = list(filter(regex.search, lst))
+   return slst
 
 
    # still need a checkUsername function 
