@@ -343,6 +343,10 @@ def userNameCharacters(url, tableName, caseSensitive = False, wildCards = True):
    
 
    """
+   """
+sqlzoo characters
+['a', 'c', 'd', 'e', 'h', 'i', 'j', 'k', 'n', 'o', 'p', 'r', 't', 'w', '_', '%']
+"""
    lst = []
 
    for ch in special:
@@ -450,16 +454,42 @@ def checkUsernameSequences(n, ch, url, tableName, minLen = 1, maxLen = 2):
       strLst = ch
    # assumes all of ch is a match
    else:
-      strLst = ""
+      strLst = []
    for k in range(minLen, maxLen + 1):
       lst = generateSubSequences(k, ch)
-      sublst = [x for x in generateSubSequences if userNameLike(x, url, tableName)]
+      sublst = [x for x in lst if userNameLike(x, url, tableName)]
 # list comprehensions with conditions:
 # https://stackoverflow.com/questions/6475314/python-for-in-loop-preceded-by-a-variable
       strLst += sublst
    return strLst
 
+"""
+url = "https://sqlzoo.net/hack/passwd.pl"
+tab = "users"
+l = userNameCharacters(url, tab)
+print(l)
+   ['a', 'c', 'd', 'e', 'h', 'i', 'j', 'k', 'n', 'o', 'p', 'r', 't', 'w', '_', '%']
 
+l.pop()
+l.pop()
+print(l)
+   ['a', 'c', 'd', 'e', 'h', 'i', 'j', 'k', 'n', 'o', 'p', 'r', 't', 'w']
+
+l2 = checkUsernameSequences(9, l, url, tab, 2, 2)
+
+print(l2)
+   ['ak', 'an', 'da', 'di', 'ep', 'er', 'et', 'ew', 'ha', 'ia', 'ic', 'ie', 'ja', 'ke', 'ni', 'nn', 'on', 'pe', 'pi', 'ri', 'ro', 'th', 'wd']
+
+l3 = checkUsernameSequences(9, l, url, tab, 3, 3)
+
+print(l3)
+   ['ake', 'dan', 'die', 'epi', 'eri', 'eth', 'ewd', 'han', 'ian', 'iep', 'jak', 'nie', 'nni', 'onn', 'pew', 'pie', 'ric', 'ron', 'tha', 'wdi']
+
+print(len(l3))
+   20
+
+
+"""
 def generateSubSequences(k, ch):
    """
    generates all subsequences of ch with length k
@@ -619,35 +649,32 @@ Out[87]: ('c', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'e')
 """
 
 
-   """
-   Strategy:
-   first find the set of characters anywhere in any username. Pass this list to userLists.
-   """
+"""
+Strategy:
+first find the set of characters anywhere in any username. Pass this list to userLists.
+"""
+"""
+Strategy:
 
-   """
-   Strategy:
-   
-   set an n (max password length)
-   
-   iterate over character set n times, checking for character in positions 0 ... n -1.
-   Stop iterating if only wildcards match (assumes all 
-   wildcards means that I've exceeded the length of all
-   passwords, not that the passwords are all wildcards) --- wait
-   wouldn't nothing match in that case? Investigate! 
+set an n (max password length)
 
-   return a list of lists with up to n lists! 
-   This list can be used to find individual passwords!
-   """
-
-   """
-   Strategy:
-   Inputs: list of lists, n. n is the number of passwords to be found (nUsers can give the n for this).
-   nested loops testing characters in this character set? This seems like a bad idea... 
-   Scaling this leads to basically brute forcing the passwords with more programming logic...
-   There must be a better way to do this but idk...
-   Well maybe usernames tend to have patterns so this is still a useful reduction in the search space?
-   Still would prefer a better way!
-   """
+iterate over character set n times, checking for character in positions 0 ... n -1.
+Stop iterating if only wildcards match (assumes all 
+wildcards means that I've exceeded the length of all
+passwords, not that the passwords are all wildcards) --- wait
+wouldn't nothing match in that case? Investigate! 
+return a list of lists with up to n lists! 
+This list can be used to find individual passwords!
+"""
+"""
+Strategy:
+Inputs: list of lists, n. n is the number of passwords to be found (nUsers can give the n for this).
+nested loops testing characters in this character set? This seems like a bad idea... 
+Scaling this leads to basically brute forcing the passwords with more programming logic...
+There must be a better way to do this but idk...
+Well maybe usernames tend to have patterns so this is still a useful reduction in the search space?
+Still would prefer a better way!
+"""
 
 
 

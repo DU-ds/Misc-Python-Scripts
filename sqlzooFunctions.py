@@ -308,9 +308,9 @@ def aEntries(a, table, url):
    return mhm 
 
 def checkUsername(username, url, tableName):
-"""
+   """
 
-"""
+   """
    payload = "' OR EXISTS(SELECT * FROM " + tableName + " WHERE "
    payload += "name = '" + ch + "') AND ''='"
    payload = {"name" : payload, "password" : payload}
