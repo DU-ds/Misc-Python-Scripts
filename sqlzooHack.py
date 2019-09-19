@@ -511,7 +511,13 @@ def userNames(lst, url, tableName):
       tableName: string
          table with usernames
 
-
+   Another issue is this only checks for usernames with of a fixed length ie len(lst)
+   assuming wildcards are in lst, then it still might match 
+   eg if len(lst) is 6 and jane is a username, "jane%%" could match
+   if I wanted to generate all the smaller lists I could use this code:
+   for i in range(1,len(lst) ): 
+      #won't return the lists of len(lst)
+      list(itertools.permutations(lst, i))
 
    """
    n = len(lst)
@@ -546,10 +552,11 @@ def userNames(lst, url, tableName):
 
 def filt(seq, lst):
    """
-   filters lst. returns 
+   filters lst. returns sublist
 
    Args:
       seq: list
+         used to build a regex for matching
       lst: list
    Returns: 
       slst: list
