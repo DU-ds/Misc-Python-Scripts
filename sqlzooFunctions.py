@@ -570,6 +570,28 @@ def checkTableName():
 def checkDatabaseName():
     pass
 
+def sleep(n, ):
+   """
+
+   Args:
+      n: integer
+         length of time to sleep in microseconds (n thousanths of a milisecond)
+   
+   """
+ 
+   """
+   sleep:
+      https://blog.pythian.com/mysql-injection-sleep/
+      https://stackoverflow.com/questions/7676164/how-to-wait-for-2-seconds
+   elapsed time:
+      https://stackoverflow.com/questions/43252542/how-to-measure-server-response-time-for-python-requests-post-request
+      https://stackoverflow.com/questions/30442757/measuring-the-http-response-time-with-requests-library-in-python-am-i-doing-it
+      https://stackoverflow.com/questions/54619868/http-requests-post-timeout
+      https://github.com/psf/requests/blob/v2.21.0/requests/api.py#L34
+      https://github.com/psf/requests/blob/v2.21.0/requests/api.py#L116
+      https://github.com/psf/requests/blob/v2.21.0/docs/user/quickstart.rst#errors-and-exceptions
+      https://stackoverflow.com/questions/11159687/measure-website-load-time-with-python-requests
+
 """
 toDo
 
