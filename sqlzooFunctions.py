@@ -593,6 +593,8 @@ def sleep(n, ):
       https://stackoverflow.com/questions/11159687/measure-website-load-time-with-python-requests
 
 """
+
+"""
 toDo
 
    continue implementing functions
@@ -603,4 +605,11 @@ toDo
 
    make functions that go beyond this database. Things like
       Sleep function
+         implement function to see if it sleeps, collect time, measure the time difference
+         maybe do some (one sample) t-tests. Say I tell it to sleep for 2 seconds. collect 
+         data to show that it's really sleep and not latency?
+         Unless I can get the data on just how long the server is taking from getting 
+         request to sending response 
+            https://newonlinecourses.science.psu.edu/stat414/node/270/
+            https://newonlinecourses.science.psu.edu/stat414/node/310/
 """
