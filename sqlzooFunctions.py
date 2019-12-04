@@ -125,6 +125,7 @@ def constructSQLQuery(character, username, index = "no index"):
    # Looks like this is not MS access. Using * instead of % does not work, which makes sense.
    # https://www.w3schools.com/SQL/sql_like.asp
    # https://www.w3schools.com/sql/sql_wildcards.asp
+   # also doesn't seem to be MySQL -- EXISTS(SHOW DATABASES) doesn't return true -- seems to mean MySQL command SHOW DATABASES doesn't work 
 
    sqlQuery = "' OR EXISTS(SELECT * FROM users WHERE name= '" + username + "' AND password LIKE '" 
 
