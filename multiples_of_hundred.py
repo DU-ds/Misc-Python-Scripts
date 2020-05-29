@@ -48,3 +48,31 @@ print(multiples_of_hundred(n)/n)
 n = 100000
 print(multiples_of_hundred(n)/n)
 
+def multiples_of_hundred(n):
+	sum = 0
+	for i in range(1, n + 1):
+		if ((i * (i+1)) % 100) == 0:
+			sum += 1
+	return sum/n
+
+
+max = 0
+j = 0
+for i in range(1, 10001):
+    num = multiples_of_hundred(i)
+    if num > max:
+        max = num
+        j = i
+
+print(j, max)
+
+
+min = 1
+j = 0
+for i in range(1, 10001):
+    num = multiples_of_hundred(i)
+    if (num < min) & (num > 0):
+        min = num
+        j = i
+
+print(j, min)
