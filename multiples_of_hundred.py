@@ -32,7 +32,7 @@ print(n, n/multiples_of_100(n))
 
 def multiples_of_hundred(n):
 	sum = 0
-	for i in range(n):
+	for i in range(1, n + 1):
 		if ((i * (i+1)) % 100) == 0:
 			sum += 1
 	return sum
