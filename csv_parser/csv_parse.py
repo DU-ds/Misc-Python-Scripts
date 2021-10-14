@@ -1,5 +1,9 @@
 from contextlib import closing
 import io # so we can use the type
+import logging
+# logging.basicConfig(__name__, level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 """
 This program will read a csv file (passed as a string parameter) with open.
 Then it will take the first line as comma seperated list of column names. These will be the names in the dictionary.
@@ -40,6 +44,25 @@ class CSV(object): # explicit is better than implicit
 		:type f: io.TextIOWrapper
 		:return:
 		"""
+		line_number = 1 # counts from one so text editors show the right line
+		for line in f:
+			l = [ x.strip() for x in line.strip().split(',')]
+			if len(l) != len(self.headers):
+				logger.log(logging.DEBUG, "line: {line_number}".format(line_number=line_number))
+				logger.log(logging.DEBUG, l)
+				
+				raise ValueError("wrong number of columns in line: {line_number}".format(line_number=line_number))
+			for i in len(self.headers):
+				try:
+					num = float(l[i])
+					if num.is_integer():
+						num = int(num)
+					self.df[self.headers[i]] = num
+				except ValueError: # keep it as a string if it's not a float
+					self.df[self.headers[i]] = l[i]
+			
+			# increment line counter
+			line_number += 1
 		return None
 	
 	def read_csv( self ):
@@ -48,7 +71,7 @@ class CSV(object): # explicit is better than implicit
 		Users should only need to call CSV("path/to/file.csv").read_csv()
 		:return:
 		"""
-		
+
 		return None
 	
 	
