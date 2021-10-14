@@ -50,16 +50,16 @@ class CSV(object): # explicit is better than implicit
 			if len(l) != len(self.headers):
 				logger.log(logging.DEBUG, "line: {line_number}".format(line_number=line_number))
 				logger.log(logging.DEBUG, l)
-				
+				logger.log(logging.DEBUG, self.headers)
 				raise ValueError("wrong number of columns in line: {line_number}".format(line_number=line_number))
-			for i in len(self.headers):
+			for i in range(len(self.headers)):
 				try:
 					num = float(l[i])
 					if num.is_integer():
 						num = int(num)
-					self.df[self.headers[i]] = num
+					self.df[self.headers[i]].append(num)
 				except ValueError: # keep it as a string if it's not a float
-					self.df[self.headers[i]] = l[i]
+					self.df[self.headers[i]].append(l[i])
 			
 			# increment line counter
 			line_number += 1

@@ -17,6 +17,7 @@ def test_get_headers(f, expected_list, expected_dict):
 @pytest.fixture
 def csv_headers1():
 	csv = csv_parse.CSV( "empty/path" )
+	csv.headers = header_lst1
 	csv.df = header_dkt1
 	yield csv
 	del csv
