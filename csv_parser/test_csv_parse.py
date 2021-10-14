@@ -13,6 +13,14 @@ def test_get_headers(f, expected_list, expected_dict):
 	assert csv.headers == expected_list
 	assert csv.df == expected_dict
 
+#
+@pytest.fixture
+def csv_headers1():
+	csv = csv_parse.CSV( "empty/path" )
+	csv.df = header_dkt1
+	yield csv
+	del csv
+
 # should strip white space
 rows_test1 = io.StringIO(
 	"""1,2,3,4,5,y
@@ -21,5 +29,7 @@ rows_test1 = io.StringIO(
 rows_dkt1 = {'h1': [1,6,11], 'h2': [2,7,12], 'h3': [3,8,13], 'h4': [4,9,14], 'h5': [5,10,15], 'h1n1': ['y','y','n']}
 
 @pytest.mark.parametrize("f, expected_dict", [ (rows_test1, rows_dkt1) ] )
-def test_read_lines(f, expected_dict):
-	pass
+def test_get_rows(csv_headers1, f, expected_dict):
+	""""""
+	csv_headers1.get_rows(f)
+	assert expected_dict == csv_headers1.df
