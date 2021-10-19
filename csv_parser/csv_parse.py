@@ -25,9 +25,7 @@ Users should only need to call CSV("path/to/file.csv")
         self.path = path
         self.df = dict()
         self.headers = []
-        with open(self.path, 'rt') as f:
-            self.get_headers(f)
-            self.get_rows(f)
+    
     def get_headers( self, f: io.TextIOWrapper ):
         """gets headers from the opened (by read_csv) csv file f
 and initializes the data structure storing the headers.
@@ -72,3 +70,13 @@ deal with files without a header line.
                     self.df[key ].append(l[i ])
             # increment line counter
         line_number += 1
+    def read_csv( self ):
+        """ reads the csv file specified in constructor and stores in
+        dataframe-like data structure
+        
+        :return: None
+        """
+        with open(self.path, 'rt') as f:
+            self.get_headers(f)
+            self.get_rows(f)
+        
