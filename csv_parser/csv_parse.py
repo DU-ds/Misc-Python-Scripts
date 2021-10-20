@@ -70,13 +70,16 @@ deal with files without a header line.
                     self.df[key ].append(l[i ])
             # increment line counter
         line_number += 1
-    def read_csv( self ):
+    def read_csv( self , header = True):
         """ reads the csv file specified in constructor and stores in
         dataframe-like data structure
         
         :return: None
         """
         with open(self.path, 'rt') as f:
-            self.get_headers(f)
+            if header:
+                self.get_headers(f)
+            else:
+                self.headers = []
             self.get_rows(f)
         

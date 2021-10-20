@@ -16,7 +16,7 @@ def test_get_headers(f, expected_list, expected_dict):
 #
 @pytest.fixture
 def csv_headers1():
-	csv = csv_parse.CSV( "empty/path" )
+	csv = csv_parse.CSV( "test1.csv" )
 	csv.headers = header_lst1
 	csv.df = header_dkt1
 	yield csv
@@ -34,3 +34,16 @@ def test_get_rows(csv_headers1, f, expected_dict):
 	""""""
 	csv_headers1.get_rows(f)
 	assert expected_dict == csv_headers1.df
+
+@pytest.mark.parametrize("expected_dict",[ (rows_dkt1) ])
+def test_read_csv_headers_false(expected_dict):
+	csv_headers1.read_csv(header = False)
+	assert csv_headers1.headers == []
+	assert csv_headers1.df == expected_dict
+	
+@pytest.mark.parametrize("expected_list, expected_dict",[ (header_lst1, rows_dkt1) ])
+def test_read_csv_headers_true(csv_headers1, expected_list, expected_dict):
+	csv_headers1.read_csv( header = True )
+	assert csv_headers1.headers == expected_list
+	assert csv_headers1.df == expected_dict
+	
