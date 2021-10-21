@@ -55,7 +55,13 @@ deal with files without a header line.
         line_number = 1 # counts from one so text editors show the right line
         for line in f:
             l = [ x.strip() for x in line.strip().split(',')]
-            if len(l) != len(self.headers):
+            nheaders = len(self.headers)
+            if nheaders == 0:
+                self.headers = ["col" + str(x) for x in range(len(l))]
+                self.df = dict( [ (x, []) for x in self.headers ] )
+                nheaders = len( self.headers )
+            if len(l) != nheaders:
+                logger.log(logging.DEBUG, )
                 logger.log(logging.DEBUG, "line: {line_number}".format(line_number=line_number))
                 logger.log(logging.DEBUG, str(l))
                 logger.log(logging.DEBUG, self.headers)
@@ -79,7 +85,5 @@ deal with files without a header line.
         with open(self.path, 'rt') as f:
             if header:
                 self.get_headers(f)
-            else:
-                self.headers = []
             self.get_rows(f)
         
